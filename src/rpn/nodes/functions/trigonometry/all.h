@@ -1,0 +1,7 @@
+#include "arccosine.h"
+#include "arcsine.h"
+#include "arctangent.h"
+#include "arctangent2.h"
+#include "cosine.h"
+#include "sine.h"
+#include "tangent.h"
