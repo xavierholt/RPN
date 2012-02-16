@@ -51,6 +51,7 @@ namespace RPN
 	
 	void Expression::parse(const std::string& string, const Context& context, Format format)
 	{
+		(void)(format); //Unused (for now)...
 		//TODO: Add the RPN parser / format switch...
 		mStack.clear();
 		Translator translator(context, *this, string);

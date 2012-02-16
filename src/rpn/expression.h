@@ -1,8 +1,11 @@
 #ifndef RPN_EXPRESSION_H
 #define RPN_EXPRESSION_H
 
-#include <string>
-#include <vector>
+#ifndef RPN_LIBHEADER
+	#include <string>
+	#include <vector>
+#endif
+
 #include "context.h"
 #include "evaluator.h"
 

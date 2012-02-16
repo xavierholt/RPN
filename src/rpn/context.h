@@ -1,8 +1,10 @@
 #ifndef RPN_CONTEXT_H
 #define RPN_CONTEXT_H
 
-#include <map>
-#include <string>
+#ifndef RPN_LIBHEADER
+	#include <map>
+	#include <string>
+#endif
 
 namespace RPN
 {

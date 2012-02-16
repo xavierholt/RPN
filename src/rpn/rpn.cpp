@@ -38,22 +38,44 @@ namespace RPN
 		Context::ROOT->insert("sin", new SineNode());
 		Context::ROOT->insert("cos", new CosineNode());
 		Context::ROOT->insert("tan", new TangentNode());
-	//	Context::ROOT->insert("csc", new CosecantNode());
-	//	Context::ROOT->insert("sec", new SecantNode());
-	//	Context::ROOT->insert("cot", new CotangentNode());
+		Context::ROOT->insert("csc", new CosecantNode());
+		Context::ROOT->insert("sec", new SecantNode());
+		Context::ROOT->insert("cot", new CotangentNode());
 		
 		Context::ROOT->insert("asin", new ArcSineNode());
 		Context::ROOT->insert("acos", new ArcCosineNode());
 		Context::ROOT->insert("atan", new ArcTangentNode());
-	//	Context::ROOT->insert("acsc", new ArcCosecantNode());
-	//	Context::ROOT->insert("asec", new ArcSecantNode());
-	//	Context::ROOT->insert("acot", new ArcCotangentNode());
+		Context::ROOT->insert("acsc", new ArcCosecantNode());
+		Context::ROOT->insert("asec", new ArcSecantNode());
+		Context::ROOT->insert("acot", new ArcCotangentNode());
 		
 		Context::ROOT->insert("atan2", new ArcTangent2Node());
-	//	Context::ROOT->insert("acot2", new ArcCotangent2Node());
+		Context::ROOT->insert("acot2", new ArcCotangent2Node());
 		
 		Context::ROOT->insert("pi", new ConstantNode(RPN::Constants::PI));
 		Context::ROOT->insert("e", new ConstantNode(RPN::Constants::E));
+	}
+	
+	bool isValidName(const std::string& name)
+	{
+		auto i = name.begin();
+		char type = Translator::cInitial[(int) *i];
+		
+		if(!type)
+		{
+			return false;
+		}
+		
+		auto end = name.end();
+		for(++i; i != end; ++i)
+		{
+			if(Translator::cSubsequent[(int) *i] != type)
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }
 

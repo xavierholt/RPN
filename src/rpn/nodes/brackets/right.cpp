@@ -1,4 +1,7 @@
-#include <sstream>
+#ifndef RPN_LIBHEADER
+	#include <sstream>
+#endif
+
 #include "../../exception.h"
 #include "../../translator.h"
 #include "right.h"

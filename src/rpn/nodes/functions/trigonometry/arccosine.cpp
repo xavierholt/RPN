@@ -1,6 +1,8 @@
-#include <cmath>
+#ifndef RPN_LIBHEADER
+	#include <cmath>
+#endif
+
 #include "arccosine.h"
-#include "../../../evaluator.h"
 
 namespace RPN
 {
@@ -9,10 +11,9 @@ namespace RPN
 		//Nothing else to do...
 	}
 	
-	double ArcCosineNode::evaluate(RPN::Evaluator& evaluator) const
+	double ArcCosineNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return acos(arg);
 	}
 }

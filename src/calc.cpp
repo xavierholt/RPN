@@ -17,14 +17,13 @@ int main(int argc, char* argv[])
 	
 	std::cout << "rpn> ";
 	
-	while(true)
+	while(std::cin.good())
 	{
 		getline(std::cin, input);
 		
 		if(input == "exit")
 		{
-			std::cout << "Bye!\n\n";
-			return 0;
+			break;
 		}
 		else
 		{
@@ -50,5 +49,8 @@ int main(int argc, char* argv[])
 			std::cout << "\nrpn> ";
 		}
 	}
+	
+	std::cout << "Bye!\n\n";
+	return 0;
 }
 

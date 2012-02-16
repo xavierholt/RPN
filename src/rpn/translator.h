@@ -1,8 +1,10 @@
 #ifndef RPN_TRANSLATOR_H
 #define RPN_TRANSLATOR_H
 
-#include <string>
-#include <vector>
+#ifndef RPN_LIBHEADER
+	#include <string>
+	#include <vector>
+#endif
 
 namespace RPN
 {

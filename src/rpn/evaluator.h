@@ -1,7 +1,9 @@
 #ifndef RPN_EVALUATOR_H
 #define RPN_EVALUATOR_H
 
-#include <vector>
+#ifndef RPN_LIBHEADER
+	#include <vector>
+#endif
 
 namespace RPN
 {

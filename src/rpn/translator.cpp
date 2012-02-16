@@ -1,5 +1,8 @@
-#include <iostream>
-#include <sstream>
+#ifndef RPN_LIBHEADER
+	#include <iostream>
+	#include <sstream>
+#endif
+
 #include "context.h"
 #include "exception.h"
 #include "expression.h"

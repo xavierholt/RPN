@@ -1,4 +1,7 @@
-#include <cmath>
+#ifndef RPN_LIBHEADER
+	#include <cmath>
+#endif
+
 #include "exponential.h"
 
 namespace RPN

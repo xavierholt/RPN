@@ -23,8 +23,8 @@ with.  But it's not what humans are used to.  So if you ask a user to enter a
 formula, they'll give it to you in Infix Notation (3 + 4).  But your computer
 would much rather evaluate that expression in Reverse Polish Notation (3 4 +).
 
-That's where RPN comes in:  Give it a string in Infix Notation, and it'll turn
-it into an easily-evaluable Reverse Polish Notation expression.  It uses an
+That's where RPN comes in:  Give strings in Infix Notation, and it'll turn them
+into easily-evaluable Reverse Polish Notation expressions.  It uses an
 algorithm (invented by Edsger Dijkstra) called the Shunting Yard Algorithm:
 
     https://en.wikipedia.org/wiki/Shunting_yard_algorithm
@@ -87,7 +87,7 @@ arguments: a Context and a Format.
 
 The Format argument is a hook for later development; right now, RPN can only
 parse Infix Notation, but I've got plans to expand it and also parse Polish and
-Reverse Polish Notations.  This argument is currently ignored.  that'll change
+Reverse Polish Notations.  This argument is currently ignored.  That'll change
 when the new parsers are in.
 
 The Context argument lets you specify what "Context" your string is parsed in,
@@ -97,10 +97,10 @@ and for that, we'll need to move on to:
 --- 4. Contexts ---------------------------------------------------------------
 
 A Context is a dictionary of all the functions and operators that can be used
-in a parsed string.  There's a default Context stored as RPN::Context::Root;
+in a parsed string.  There's a default Context stored as RPN::Context::ROOT;
 this is what RPN::initialize() sets up, and that's why you want to call it -
 it lets you use all the basics (sin, cos, +, -, ln, etc.) without having to
-set them up yourself.
+define them yourself.
 
 The second argument to RPN::Expression's parsing functions (the convenience
 constructor and parse()) is a Context.  If you don't specify anything, it
@@ -216,5 +216,27 @@ order):
         }
     };
 
-Custom Operators should inherit from the RPN::OperatorNode class.
+Custom Operators should inherit from the RPN::OperatorNode class.  That works
+just about the same, but the RPN::OperatorNode constructor takes different
+arguments: a precedence, an associativity (this defaults to left), and a number
+of arguments (which defaults to 2).  Besides that, though, it's just like
+implementing a Function:
+
+    class ReciprocalNode : public OperatorNode
+    {
+    public:
+        ReciprocalNode(): OperatorNode(
+        	OperatorNode::ADDITION,
+        	OperatorNode::RIGHT,
+        	1)
+        {
+            //Nothing else to do...
+        }
+        
+        double evaluate(RPN::Evaluator& evaluator) const
+        {
+        	double arg = evaluator.pop();
+        	return 1.0 / arg;
+        }
+    };
 

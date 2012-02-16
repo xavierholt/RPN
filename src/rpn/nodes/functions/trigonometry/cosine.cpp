@@ -1,6 +1,8 @@
-#include <cmath>
+#ifndef RPN_LIBHEADER
+	#include <cmath>
+#endif
+
 #include "cosine.h"
-#include "../../../evaluator.h"
 
 namespace RPN
 {
@@ -11,8 +13,7 @@ namespace RPN
 	
 	double CosineNode::evaluate(RPN::Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return cos(arg);
 	}
 }

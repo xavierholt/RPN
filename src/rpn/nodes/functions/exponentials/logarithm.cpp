@@ -1,6 +1,8 @@
-#include <cmath>
+#ifndef RPN_LIBHEADER
+	#include <cmath>
+#endif
+
 #include "logarithm.h"
-#include "../../../evaluator.h"
 
 namespace RPN
 {

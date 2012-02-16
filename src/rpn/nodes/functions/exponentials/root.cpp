@@ -1,6 +1,8 @@
-#include <cmath>
+#ifndef RPN_LIBHEADER
+	#include <cmath>
+#endif
+
 #include "root.h"
-#include "../../../evaluator.h"
 
 namespace RPN
 {

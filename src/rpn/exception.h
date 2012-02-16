@@ -1,7 +1,9 @@
 #ifndef RPN_EXCEPTION_H
 #define RPN_EXCEPTION_H
 
-#include <stdexcept>
+#ifndef RPN_LIBHEADER
+	#include <stdexcept>
+#endif
 
 namespace RPN
 {
