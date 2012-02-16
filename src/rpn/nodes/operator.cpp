@@ -3,19 +3,37 @@
 
 namespace RPN
 {
+	OperatorNode::OperatorNode(int precedence, Associativity associativity, int arguments):
+		mArguments(arguments),
+		mAssociativity(associativity),
+		mPrecedence(precedence)
+	{
+		//Nothing else to do...
+	}
+	
 	int OperatorNode::arguments() const
 	{
-		return 2;
+		return mArguments;
+	}
+	
+	int OperatorNode::associativity() const
+	{
+		return mAssociativity;
 	}
 	
 	bool OperatorNode::isRightAssociative() const
 	{
-		return false;
+		return (mAssociativity != LEFT);
 	}
 	
 	bool OperatorNode::isOperator() const
 	{
 		return true;
+	}
+	
+	int OperatorNode::precedence() const
+	{
+		return mPrecedence;
 	}
 	
 	void OperatorNode::translate(Translator& translator) const

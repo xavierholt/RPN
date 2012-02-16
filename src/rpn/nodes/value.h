@@ -10,7 +10,6 @@ namespace RPN
 	public:
 		virtual int    arguments() const;
 		virtual void   translate(Translator& translator) const;
-		virtual double value() const = 0;
 	};
 }
 

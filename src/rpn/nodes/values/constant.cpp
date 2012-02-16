@@ -12,10 +12,5 @@ namespace RPN
 		(void)(evaluator); //Unused
 		return mValue;
 	}
-	
-	double ConstantNode::value() const
-	{
-		return mValue;
-	}
 }
 

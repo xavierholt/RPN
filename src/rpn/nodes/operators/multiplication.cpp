@@ -2,23 +2,16 @@
 
 namespace RPN
 {
-	MultiplicationNode::MultiplicationNode(): OperatorNode()
+	MultiplicationNode::MultiplicationNode(): OperatorNode(OperatorNode::MULTIPLICATION)
 	{
 		//Nothing else to do...
 	}
 	
 	double MultiplicationNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg2 = evaluator.back();
-		evaluator.pop_back();
-		double arg1 = evaluator.back();
-		evaluator.pop_back();
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
 		return (arg1 * arg2);
-	}
-	
-	int MultiplicationNode::precedence() const
-	{
-		return OperatorNode::MULTIPLICATION;
 	}
 }
 

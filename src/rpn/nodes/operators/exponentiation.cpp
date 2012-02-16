@@ -3,28 +3,16 @@
 
 namespace RPN
 {
-	ExponentiationNode::ExponentiationNode(): OperatorNode()
+	ExponentiationNode::ExponentiationNode(): OperatorNode(OperatorNode::EXPONENTIATION, OperatorNode::RIGHT)
 	{
 		//Nothing else to do...
 	}
 	
-	bool ExponentiationNode::isRightAssociative() const
-	{
-		return true;
-	}
-	
 	double ExponentiationNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg2 = evaluator.back();
-		evaluator.pop_back();
-		double arg1 = evaluator.back();
-		evaluator.pop_back();
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
 		return pow(arg1, arg2);
-	}
-	
-	int ExponentiationNode::precedence() const
-	{
-		return OperatorNode::EXPONENTIATION;
 	}
 }
 

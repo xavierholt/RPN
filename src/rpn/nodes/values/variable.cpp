@@ -12,10 +12,5 @@ namespace RPN
 		(void)(evaluator); //Unused
 		return *mVariable;
 	}
-	
-	double VariableNode::value() const
-	{
-		return *mVariable;
-	}
 }
 

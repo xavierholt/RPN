@@ -2,9 +2,19 @@
 #define RPN_EVALUATOR_H
 
 #include <vector>
+
 namespace RPN
 {
-	typedef std::vector<double> Evaluator;
+	class Evaluator : public std::vector<double>
+	{
+	public:
+		double pop()
+		{
+			double ret = back();
+			pop_back();
+			return ret;
+		}
+	};
 }
 
 #endif

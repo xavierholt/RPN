@@ -1,0 +1,220 @@
+===============================================================================
+=== RPN:  A simple Reverse Polish Notation parser and evaluator. ==============
+===============================================================================
+
+--- Table of Contents ---------------------------------------------------------
+
+ 1. Introduction
+ 2. The Basics
+ 3. Expressions
+ 4. Contexts
+ 5. Custom Nodes
+
+
+--- 1. Introduction -----------------------------------------------------------
+
+This is RPN.  It's a Reverse Polish Notiation library.  If you don't know what
+Reverse Polish Notation is, you should check it out on Wikipedia:
+
+    https://en.wikipedia.org/wiki/Reverse_polish_notation
+
+Reverse Polish Notation is a format that's very easy for computers to work
+with.  But it's not what humans are used to.  So if you ask a user to enter a
+formula, they'll give it to you in Infix Notation (3 + 4).  But your computer
+would much rather evaluate that expression in Reverse Polish Notation (3 4 +).
+
+That's where RPN comes in:  Give it a string in Infix Notation, and it'll turn
+it into an easily-evaluable Reverse Polish Notation expression.  It uses an
+algorithm (invented by Edsger Dijkstra) called the Shunting Yard Algorithm:
+
+    https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+
+And then, it'll evaluate them for you, too.  Simple as that.
+
+
+--- 2. The Basics -------------------------------------------------------------
+
+So how do you, a programmer, use RPN?
+
+First, you're going to have to have it installed.  See the INSTALL file in this
+directory for more on that.
+
+Then, include RPN so your compiler knows what you're working with:
+
+    #include <rpn.h>
+
+Initialize RPN.  More on what this does in the "Contexts" section; for now,
+just do it:
+
+    RPN::initialize();
+
+You'll want to make an Expression, which is the most important (well, to you)
+component of the library.  Give it an infix string when you cunstruct it to
+create an evaluable expression right away:
+
+    RPN::Expression expr("1 + 2 - 3");
+
+And then, you can evaluate that expression, and get your surprise answer
+(spoiler: it's zero):
+
+    std::cout << expr.evaluate();
+
+And that's that.  It's not very useful, obviously, if you know the expression
+you're evaluating beforehand, but hook it up to some command-line input and
+you've got a simple calculator (in fact, I've done this; check out src/calc.cpp
+and/or bin/calc.out).  Or make something exen more complex...
+
+It does a few extra tricks, too.  For them, read on.
+
+
+--- 3. Expressions ------------------------------------------------------------
+
+As I said above:  Expressions are what you're going to be working with the
+most.  The convenience constructor is a good place to start:
+
+    RPN::Expression expr("2 + 2");
+
+But you can also create an empty expression, and/or parse a new string into an
+existing expression.  You can do this as many times as youlike; just be aware
+that the parse function clears out the current expression:
+
+    RPN::Expression expr;
+    expr->parse("1 + 1");
+    expr->parse("2 * 2");
+
+That convenience constructor and the parse function also take to optional
+arguments: a Context and a Format.
+
+The Format argument is a hook for later development; right now, RPN can only
+parse Infix Notation, but I've got plans to expand it and also parse Polish and
+Reverse Polish Notations.  This argument is currently ignored.  that'll change
+when the new parsers are in.
+
+The Context argument lets you specify what "Context" your string is parsed in,
+and for that, we'll need to move on to:
+
+
+--- 4. Contexts ---------------------------------------------------------------
+
+A Context is a dictionary of all the functions and operators that can be used
+in a parsed string.  There's a default Context stored as RPN::Context::Root;
+this is what RPN::initialize() sets up, and that's why you want to call it -
+it lets you use all the basics (sin, cos, +, -, ln, etc.) without having to
+set them up yourself.
+
+The second argument to RPN::Expression's parsing functions (the convenience
+constructor and parse()) is a Context.  If you don't specify anything, it
+defaults to the root context.
+
+You can make your own contexts, though, and specify those instead:
+
+    RPN::Context cxt;
+    RPN::Expression expr("7 % 3", cxt);
+
+Contexts have parents.  They fit together into a tree structure.  If you don't
+want your context to be a child of the root context, you can specify a
+different parent when you create it:
+
+    RPN::Context cxt;
+    RPN::Context subcxt(&cxt);
+    RPN::Expression expr("7 % 3", subcxt);
+
+Why would you want to do this?  Well, you can create your own functions and
+operators (see "Custom Nodes"), but it'd be bad form to add these to the root
+context (and in future versions, it may be impossible).  So make your own
+context, and add them there instead.
+
+You can use this to make new functions and operators, or override the defaults.
+This can be useful:
+
+Say you want to parse some strings: str1 and str2.  In str1, the sin() function
+expects values in degrees, but in str2 sin() expects radians (RPN's default).
+
+What do you do?  Make a custom DecimalSineNode class (again, see "Custom
+Nodes"), make a custom context to hold it, and insert your custom node.  Then
+you can parse str1 in your custom context, and parse str2 in the (unpoluted)
+root context:
+
+    RPN::Context dectrig;
+    dectrig.insert("sin", new DecimalSineNode());
+    RPN::Expression expr1(str1, dectrig);
+    RPN::Expression expr2(str2);
+
+And how do you define that custom node?  Read on...
+
+--- 5. Custom Nodes -----------------------------------------------------------
+
+You can make a variety of custom nodes.  There are two broad categories to
+choose from: Values and Functions/Operators.
+
+Values are the simplest nodes to add.  You don't need to define any classes to
+use them.  Just use their constructors.
+
+And Constants are the simplest of the Values.  They're just numbers.  You can't
+change them.  But they can be convenient.  Let's say you're working with
+something that uses the Golden Ratio a lot - it's easiest to define it once,
+accurately, and then be able to refer to it in shorthand:
+
+    RPN::Context cxt;
+    cxt.insert("phi", new RPN::ConstantNode(1.61803398874));
+    Expression expr("(phi^3 - (1-phi)^3) / sqrt(5)", cxt);
+
+Variables are the next simplest nodes.  They're pointers to numbers, so you can
+change the underlying value between evaluations:
+
+    double x = 7;
+    RPN::Context cxt;
+    cxt.insert("x", new RPN::VariableNode(&x));
+    Expression expr("x^2 + x - 1", cxt);
+    std::cout << expr.evaluate();               // prints 55
+    x = 12;
+    std::cout << expr.evaluate();               // prints 155
+
+The last type of Value node is the Expression node.  It does what you'd expect:
+lets you reference one expression, by name, in another expression.  The
+referenced expression is evaluated every time the referencing expression is, so
+if it changes (if parse() is called on it, say), this change will be apparent
+on the next call to evaluate():
+
+    RPN::Context cxt;
+    RPN::Expression expr1("(1 + 3) * 10");
+    cxt.insert("expr1", new ExpressionNode(&expr1));
+    RPN::Expression expr2("myexpr + 7", cxt);
+    std::cout << expr2.evaluate();                   // prints 47
+    expr1.parse("(1 + 3) * 9");
+    std::cout << expr2.evaluate();                   // prints 43
+
+Then there are the Function and Operator nodes.  These let you do more
+interesting things, but you'll have to do a little programming to implement
+them.
+
+Custom Functions should inherit from the RPN::FunctionNode class.  This takes
+care of most of the bookeeping for you.  You only need to supply two things: an
+argument count, which you pass into the RPN::FunctionNode constructor, and a
+const evaluate() member function, which takes an RPN::Evaluator reference as
+its one argument and returns a double.  And within that function, make sure you
+pop() all the arguments you use off of the Evaluator (they'll be in reverse
+order):
+
+    class ClampNode : public FunctionNode
+    {
+    public:
+        ClampNode(): FunctionNode(3)
+        {
+            //Nothing else to do...
+        }
+        
+        double evaluate(RPN::Evaluator& evaluator) const
+        {
+        	double arg3 = evaluator.pop();
+        	double arg2 = evaluator.pop();
+        	double arg1 = evaluator.pop();
+        	
+        	double max1 = (arg3 > arg2)? arg3 : arg2;
+        	double max2 = (arg2 > arg1)? arg2 : arg1;
+        	return (max1 < max2)? max1 : max2;
+        }
+    };
+
+Custom Operators should inherit from the RPN::OperatorNode class.
+

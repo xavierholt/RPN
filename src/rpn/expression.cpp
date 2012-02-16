@@ -5,11 +5,14 @@
 
 namespace RPN
 {
-	Expression::Expression(const RPN::Context& context, const std::string& string, SourceFormat format)
+	Expression::Expression()
 	{
-		//TODO: Add the RPN parser / format switch...
-		Translator translator(context, *this, string);
-		translator.translate();
+		//Nothing to do...
+	}
+	
+	Expression::Expression(const std::string& string, const RPN::Context& context, Format format)
+	{
+		parse(string, context, format);
 	}
 	
 	Expression::~Expression()
@@ -44,6 +47,14 @@ namespace RPN
 		}
 		
 		return evaluator.back();
+	}
+	
+	void Expression::parse(const std::string& string, const Context& context, Format format)
+	{
+		//TODO: Add the RPN parser / format switch...
+		mStack.clear();
+		Translator translator(context, *this, string);
+		translator.translate();
 	}
 	
 	Expression& Expression::operator <<(const Node* node)

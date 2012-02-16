@@ -12,10 +12,5 @@ namespace RPN
 	{
 		return mExpression->evaluate(evaluator);
 	}
-	
-	double ExpressionNode::value() const
-	{
-		return mExpression->evaluate();
-	}
 }
 

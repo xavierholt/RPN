@@ -5,10 +5,6 @@ namespace RPN
 {
 	void initialize()
 	{
-		double pi = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 ;
-		double e  = 2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274;
-		
-		
 		Context::ROOT = new Context(NULL);
 		
 		Context::ROOT->insert(",", new CommaNode());
@@ -25,9 +21,9 @@ namespace RPN
 		Context::ROOT->insert("*", new MultiplicationNode());
 		Context::ROOT->insert("/", new DivisionNode());
 		Context::ROOT->insert("%", new ModuloNode());
-	//	Context::ROOT->insert("~", new NegationNode());
+		Context::ROOT->insert("~", new NegationNode());
 		Context::ROOT->insert("^", new ExponentiationNode());
-	//	Context::ROOT->insert("!", new FactorialNode());
+		Context::ROOT->insert("!", new FactorialNode());
 		
 		Context::ROOT->insert("pow", new PowerNode());
 		Context::ROOT->insert("exp", new ExponentialNode());
@@ -56,8 +52,8 @@ namespace RPN
 		Context::ROOT->insert("atan2", new ArcTangent2Node());
 	//	Context::ROOT->insert("acot2", new ArcCotangent2Node());
 		
-		Context::ROOT->insert("pi", new ConstantNode(pi));
-		Context::ROOT->insert("e", new ConstantNode(e));
+		Context::ROOT->insert("pi", new ConstantNode(RPN::Constants::PI));
+		Context::ROOT->insert("e", new ConstantNode(RPN::Constants::E));
 	}
 }
 

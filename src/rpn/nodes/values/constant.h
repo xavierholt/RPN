@@ -14,7 +14,6 @@ namespace RPN
 		ConstantNode(double value);
 		
 		virtual double evaluate(Evaluator& evaluator) const;
-		virtual double value() const;
 	};
 }
 

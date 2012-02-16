@@ -11,9 +11,8 @@ namespace RPN
 	
 	double SquareRootNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
-		return pow(arg, 0.5);
+		double arg = evaluator.pop();
+		return sqrt(arg);
 	}
 }
 

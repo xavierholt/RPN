@@ -14,8 +14,8 @@ moc_%.cpp : %.h
 	${MOC} -o $@ $<
 
 clean:
-	#find $(SRCDIR) -type f -name '*.o'
-	#find $(BINDIR) -type f
+	find -type f -name '*.out' -delete
+	find -type f -name '*.o' -delete
 force:
 	true
 

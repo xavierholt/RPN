@@ -3,23 +3,16 @@
 
 namespace RPN
 {
-	ModuloNode::ModuloNode(): OperatorNode()
+	ModuloNode::ModuloNode(): OperatorNode(OperatorNode::MODULO)
 	{
 		//Nothing else to do...
 	}
 	
 	double ModuloNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg2 = evaluator.back();
-		evaluator.pop_back();
-		double arg1 = evaluator.back();
-		evaluator.pop_back();
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
 		return fmod(arg1, arg2);
-	}
-	
-	int ModuloNode::precedence() const
-	{
-		return OperatorNode::MODULO;
 	}
 }
 

@@ -11,8 +11,6 @@ namespace RPN
 		ExponentiationNode();
 		
 		virtual double evaluate(Evaluator& evaluator) const;
-		virtual bool   isRightAssociative() const;
-		virtual int    precedence() const;
 	};
 }
 

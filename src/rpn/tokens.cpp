@@ -129,7 +129,7 @@ namespace RPN
 		PARENTHESIS,
 		OPERATOR,
 		PARENTHESIS,
-		0,
+		OPERATOR,
 		0,
 		0,
 		0,

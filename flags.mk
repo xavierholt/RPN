@@ -14,7 +14,7 @@ endif
 LINKER := $(COMPILER)
 
 ifdef RELEASE
-	COMPILER := $(COMPILER) -O3
+	COMPILER := $(COMPILER) -O3 -fPIC
 	LINKER := $(LINKER) -Wl,--gc-sections,-s
 endif
 

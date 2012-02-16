@@ -11,7 +11,6 @@ namespace RPN
 		MultiplicationNode();
 		
 		virtual double evaluate(Evaluator& evaluator) const;
-		virtual int    precedence() const;
 	};
 }
 

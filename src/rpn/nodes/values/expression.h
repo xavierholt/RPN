@@ -16,7 +16,6 @@ namespace RPN
 		ExpressionNode(const Expression* expression);
 		
 		virtual double evaluate(Evaluator& evaluator) const;
-		virtual double value() const;
 	};
 }
 

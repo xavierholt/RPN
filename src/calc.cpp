@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 					expression = NULL;
 				}
 				
-				expression = new RPN::Expression(context, input.c_str());
+				expression = new RPN::Expression(input.c_str(), context);
 				ans = expression->evaluate();
 				std::cout << ans;
 			}

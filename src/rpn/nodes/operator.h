@@ -10,6 +10,12 @@ namespace RPN
 	class OperatorNode : public Node
 	{
 	public:
+		enum Associativity
+		{
+			LEFT,
+			RIGHT
+		};
+		
 		enum Precedence
 		{
 			ADDITION = 100,
@@ -27,10 +33,18 @@ namespace RPN
 		};
 		
 	public:
+		int mArguments;
+		int mAssociativity;
+		int mPrecedence;
+		
+	public:
+		OperatorNode(int precedence, Associativity associativity = LEFT, int arguments = 2);
+		
 		virtual int  arguments() const;
-		virtual bool isRightAssociative() const;
+		virtual int  associativity() const;
 		virtual bool isOperator() const;
-		virtual int  precedence() const = 0;
+		virtual bool isRightAssociative() const;
+		virtual int  precedence() const;
 		virtual void translate(Translator& translator) const;
 	};
 }

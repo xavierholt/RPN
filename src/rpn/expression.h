@@ -3,34 +3,36 @@
 
 #include <string>
 #include <vector>
+#include "context.h"
 #include "evaluator.h"
 
 namespace RPN
 {
-	class Context;
 	class Node;
 	
 	class Expression 
 	{
 	public:
-		enum SourceFormat
+		enum Format
 		{
 			INFIX,
 			RPN
 		};
 		
 	protected:
-		int mMaxAvailable;
+		int                      mMaxAvailable;
 		std::vector<const Node*> mStack;
+		double                   mResult;
 		
 	public:
-		Expression(int size);
-		Expression(const Context& context, const std::string& string, SourceFormat format = INFIX);
+		Expression();
+		Expression(const std::string& string, const Context& context = Context::ROOT, Format format = INFIX);
 		~Expression();
 		
 		Evaluator* buildEvaluator() const;
 		double     evaluate() const;
 		double     evaluate(Evaluator& evaluator) const;
+		void       parse(const std::string& string, const Context& context = Context::ROOT, Format format = INFIX);
 		
 		Expression& operator <<(const Node* node);
 		
