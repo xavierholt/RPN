@@ -8,7 +8,10 @@ namespace RPN
 	class CommaNode : public Node
 	{
 	public:
-		virtual void translate(Translator& translator) const;
+		virtual void infixParse(InfixParser& parser, Parser::Token& token) const;
+		virtual Type infixPresents() const;
+		virtual Type infixSucceeds() const;
+		virtual Type type() const;
 	};
 }
 

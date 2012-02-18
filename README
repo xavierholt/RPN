@@ -23,9 +23,9 @@ with.  But it's not what humans are used to.  So if you ask a user to enter a
 formula, they'll give it to you in Infix Notation (3 + 4).  But your computer
 would much rather evaluate that expression in Reverse Polish Notation (3 4 +).
 
-That's where RPN comes in:  Give strings in Infix Notation, and it'll turn them
-into easily-evaluable Reverse Polish Notation expressions.  It uses an
-algorithm (invented by Edsger Dijkstra) called the Shunting Yard Algorithm:
+That's where RPN comes in:  Give it strings in Infix Notation, and it'll turn
+them into easily-evaluable Reverse Polish Notation expressions.  It uses an
+algorithm called the Shunting Yard Algorithm:
 
     https://en.wikipedia.org/wiki/Shunting_yard_algorithm
 

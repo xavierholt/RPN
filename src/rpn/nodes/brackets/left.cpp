@@ -1,5 +1,5 @@
 #include "left.h"
-#include "../../translator.h"
+#include "../../parsers/infix.h"
 
 namespace RPN
 {
@@ -8,9 +8,19 @@ namespace RPN
 		//Nothing else to do...
 	}
 	
-	void LeftBracketNode::translate(Translator& translator) const
+	void LeftBracketNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
-		translator.push_to_stack(this);
+		parser.push_to_stack(token);
+	}
+	
+	Node::Type LeftBracketNode::infixPresents() const
+	{
+		return Node::OPERATOR;
+	}
+	
+	Node::Type LeftBracketNode::infixSucceeds() const
+	{
+		return Node::OPERATOR;
 	}
 }
 

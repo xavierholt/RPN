@@ -1,5 +1,5 @@
 #include "function.h"
-#include "../translator.h"
+#include "../parsers/infix.h"
 
 namespace RPN
 {
@@ -13,9 +13,24 @@ namespace RPN
 		return mArguments;
 	}
 	
-	void FunctionNode::translate(RPN::Translator& translator) const
+	void FunctionNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
-		translator.push_to_stack(this);
+		parser.push_to_stack(token);
+	}
+	
+	Node::Type FunctionNode::infixPresents() const
+	{
+		return Node::OPERATOR;
+	}
+	
+	Node::Type FunctionNode::infixSucceeds() const
+	{
+		return Node::OPERATOR;
+	}
+	
+	Node::Type FunctionNode::type() const
+	{
+		return Node::FUNCTION;
 	}
 }
 

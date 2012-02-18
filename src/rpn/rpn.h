@@ -24,7 +24,6 @@
 #include "exception.h"
 #include "expression.h"
 #include "nodes/inheritable.h"
-#include "translator.h"
 
 namespace RPN
 {

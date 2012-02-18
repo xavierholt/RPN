@@ -3,7 +3,7 @@
 #endif
 
 #include "../../exception.h"
-#include "../../translator.h"
+#include "../../parsers/infix.h"
 #include "right.h"
 
 namespace RPN
@@ -13,38 +13,50 @@ namespace RPN
 		//Nothing else to do...
 	}
 	
-	void RightBracketNode::translate(Translator& translator) const
+	void RightBracketNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
-		while(translator.hasStack())
+		while(parser.hasStack())
 		{
-			const Node* node = translator.pop();
-			if(node->isBracket())
+			Parser::Token token = parser.pop();
+			const Node* node = token.node;
+			
+			if(node->type() == Node::BRACKET)
 			{
 				const BracketNode* bracket = (BracketNode*) node;
 				if(bracket->isClosedBy(this))
 				{
-					if(translator.hasStack() && translator.top()->isFunction())
+					if(parser.hasStack() && parser.top().node->type() == Node::FUNCTION)
 					{
-						translator.shunt();
+						parser.shunt();
 					}
 					return;
 				}
 				else
 				{
-					std::stringstream mess;
+					std::ostringstream mess;
 					mess << "Bracket mismatch: Expected '" << bracket->closer() << "'; got '" << closer() << '\'';
 					throw Exception(mess.str());
 				}
 			}
 			else
 			{
-				translator.push_to_expression(node);
+				parser.push_to_expression(token);
 			}
 		}
 		
-		std::stringstream mess;
+		std::ostringstream mess;
 		mess << "Bracket mismatch: Unmatched '" << closer() << '\'';
 		throw Exception(mess.str());
+	}
+	
+	Node::Type RightBracketNode::infixPresents() const
+	{
+		return Node::VALUE;
+	}
+	
+	Node::Type RightBracketNode::infixSucceeds() const
+	{
+		return Node::VALUE;
 	}
 }
 

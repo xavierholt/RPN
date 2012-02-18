@@ -1,8 +1,8 @@
-#include "translator.h"
+#include "parser.h"
 
 namespace RPN
 {
-	const unsigned char Translator::cInitial[256] = {
+	const unsigned char Parser::cInitial[256] = {
 		0,
 		0,
 		0,
@@ -43,8 +43,8 @@ namespace RPN
 		OPERATOR,
 		OPERATOR,
 		IDENTIFIER,
-		PARENTHESIS,
-		PARENTHESIS,
+		BRACKET,
+		BRACKET,
 		OPERATOR,
 		OPERATOR,
 		OPERATOR,
@@ -94,9 +94,9 @@ namespace RPN
 		IDENTIFIER,
 		IDENTIFIER,
 		IDENTIFIER,
-		PARENTHESIS,
+		BRACKET,
 		OPERATOR,
-		PARENTHESIS,
+		BRACKET,
 		OPERATOR,
 		IDENTIFIER,
 		0,
@@ -126,9 +126,9 @@ namespace RPN
 		IDENTIFIER,
 		IDENTIFIER,
 		IDENTIFIER,
-		PARENTHESIS,
+		BRACKET,
 		OPERATOR,
-		PARENTHESIS,
+		BRACKET,
 		OPERATOR,
 		0,
 		0,
@@ -261,7 +261,7 @@ namespace RPN
 		0
 	};
 	
-	const unsigned char Translator::cSubsequent[256] = {
+	const unsigned char Parser::cSubsequent[256] = {
 		0,
 		0,
 		0,

@@ -22,9 +22,9 @@ namespace RPN
 		return (other->mCloser == mCloser);
 	}
 	
-	bool BracketNode::isBracket() const
+	Node::Type BracketNode::type() const
 	{
-		return true;
+		return Node::BRACKET;
 	}
 }
 

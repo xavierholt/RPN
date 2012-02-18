@@ -24,21 +24,6 @@ namespace RPN
 		return 0.0;
 	}
 	
-	bool Node::isBracket() const
-	{
-		return false;
-	}
-	
-	bool Node::isFunction() const
-	{
-		return false;
-	}
-	
-	bool Node::isOperator() const
-	{
-		return false;
-	}
-	
 	void Node::reference() const
 	{
 		++mReferenceCount;

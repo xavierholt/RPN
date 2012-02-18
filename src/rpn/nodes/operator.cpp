@@ -1,5 +1,10 @@
+#ifndef RPN_LIBHEADER
+	#include <sstream>
+#endif
+
 #include "operator.h"
-#include "../translator.h"
+#include "../exception.h"
+#include "../parsers/infix.h"
 
 namespace RPN
 {
@@ -8,7 +13,12 @@ namespace RPN
 		mAssociativity(associativity),
 		mPrecedence(precedence)
 	{
-		//Nothing else to do...
+		if((unsigned int) mArguments > 2)
+		{
+			std::ostringstream mess;
+			mess << "Invalid argument count: Expected 1 or 2; got " << mArguments;
+			throw Exception(mess.str());
+		}
 	}
 	
 	int OperatorNode::arguments() const
@@ -21,31 +31,18 @@ namespace RPN
 		return mAssociativity;
 	}
 	
-	bool OperatorNode::isRightAssociative() const
-	{
-		return (mAssociativity != LEFT);
-	}
-	
-	bool OperatorNode::isOperator() const
-	{
-		return true;
-	}
-	
-	int OperatorNode::precedence() const
-	{
-		return mPrecedence;
-	}
-	
-	void OperatorNode::translate(Translator& translator) const
+	void OperatorNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		int comp = precedence() - isRightAssociative();
 		
-		while(translator.hasStack())
+		while(parser.hasStack())
 		{
-			const Node* node = translator.top();
-			if(node->isOperator() && ((const OperatorNode*)node)->precedence() >= comp)
+			Parser::Token token = parser.top();
+			const Node* node = token.node;
+			
+			if(node->type() == Node::OPERATOR && ((const OperatorNode*)node)->precedence() >= comp)
 			{
-				translator.shunt();
+				parser.shunt();
 			}
 			else
 			{
@@ -53,7 +50,51 @@ namespace RPN
 			}
 		}
 		
-		translator.push_to_stack(this);
+		parser.push_to_stack(token);
+	}
+	
+	Node::Type OperatorNode::infixPresents() const
+	{
+		if(mArguments == 2 || isRightAssociative())
+		{
+			return Node::OPERATOR;
+		}
+		else
+		{
+			return Node::VALUE;
+		}
+	}
+	
+	Node::Type OperatorNode::infixSucceeds() const
+	{
+		if(mArguments == 2 || isLeftAssociative())
+		{
+			return Node::VALUE;
+		}
+		else
+		{
+			return Node::OPERATOR;
+		}
+	}
+	
+	bool OperatorNode::isLeftAssociative() const
+	{
+		return (mAssociativity != RIGHT);
+	}
+	
+	bool OperatorNode::isRightAssociative() const
+	{
+		return (mAssociativity != LEFT);
+	}
+	
+	int OperatorNode::precedence() const
+	{
+		return mPrecedence;
+	}
+	
+	Node::Type OperatorNode::type() const
+	{
+		return Node::OPERATOR;
 	}
 }
 

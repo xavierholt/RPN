@@ -1,21 +1,37 @@
-#include "../translator.h"
+#include "../parsers/infix.h"
 #include "comma.h"
 
 namespace RPN
 {
-	void CommaNode::translate(Translator& translator) const
+	void CommaNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
-		while(translator.hasStack())
+		while(parser.hasStack())
 		{
-			if(translator.top()->isBracket())
+			if(parser.top().node->type() == Node::BRACKET)
 			{
 				return;
 			}
 			else
 			{
-				translator.shunt();
+				parser.shunt();
 			}
 		}
+	}
+	
+	Node::Type CommaNode::infixPresents() const
+	{
+		return Node::OPERATOR;
+	}
+	
+	Node::Type CommaNode::infixSucceeds() const
+	{
+		return Node::VALUE;
+	}
+	
+	Node::Type CommaNode::type() const
+	{
+		//TODO: Is this correct?  Should there be a COMMA type?
+		return Node::OPERATOR;
 	}
 }
 

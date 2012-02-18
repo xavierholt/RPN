@@ -1,4 +1,4 @@
-#include "../translator.h"
+#include "../parsers/infix.h"
 #include "value.h"
 
 namespace RPN
@@ -8,9 +8,24 @@ namespace RPN
 		return 0;
 	}
 	
-	void ValueNode::translate(Translator& translator) const
+	void ValueNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
-		translator.push_to_expression(this);
+		parser.push_to_expression(token);
+	}
+	
+	Node::Type ValueNode::infixPresents() const
+	{
+		return Node::VALUE;
+	}
+	
+	Node::Type ValueNode::infixSucceeds() const
+	{
+		return Node::OPERATOR;
+	}
+	
+	Node::Type ValueNode::type() const
+	{
+		return Node::VALUE;
 	}
 }
 

@@ -1,7 +1,8 @@
 #include "expression.h"
 #include "evaluator.h"
 #include "node.h"
-#include "translator.h"
+#include "parser.h"
+#include "parsers/all.h"
 
 namespace RPN
 {
@@ -17,11 +18,7 @@ namespace RPN
 	
 	Expression::~Expression()
 	{
-		auto end = mStack.end();
-		for(auto i = mStack.begin(); i < end; ++i)
-		{
-			(*i)->dereference();
-		}
+		clear();
 	}
 	
 	Evaluator* Expression::buildEvaluator() const
@@ -29,6 +26,17 @@ namespace RPN
 		Evaluator* ret = new Evaluator();
 		ret->reserve(mMaxAvailable);
 		return ret;
+	}
+	
+	void Expression::clear()
+	{
+		auto end = mStack.end();
+		for(auto i = mStack.begin(); i < end; ++i)
+		{
+			(*i)->dereference();
+		}
+		
+		mStack.clear();
 	}
 	
 	double Expression::evaluate() const
@@ -52,10 +60,11 @@ namespace RPN
 	void Expression::parse(const std::string& string, const Context& context, Format format)
 	{
 		(void)(format); //Unused (for now)...
+		
+		clear();
 		//TODO: Add the RPN parser / format switch...
-		mStack.clear();
-		Translator translator(context, *this, string);
-		translator.translate();
+		InfixParser parser(string, context);
+		parser.store(*this);
 	}
 	
 	Expression& Expression::operator <<(const Node* node)

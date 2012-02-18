@@ -1,4 +1,5 @@
 #include "nodes/all.h"
+#include "parser.h"
 #include "rpn.h"
 
 namespace RPN
@@ -59,7 +60,7 @@ namespace RPN
 	bool isValidName(const std::string& name)
 	{
 		auto i = name.begin();
-		char type = Translator::cInitial[(int) *i];
+		char type = Parser::cInitial[(int) *i];
 		
 		if(!type)
 		{
@@ -69,7 +70,7 @@ namespace RPN
 		auto end = name.end();
 		for(++i; i != end; ++i)
 		{
-			if(Translator::cSubsequent[(int) *i] != type)
+			if(Parser::cSubsequent[(int) *i] != type)
 			{
 				return false;
 			}

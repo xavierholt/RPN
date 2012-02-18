@@ -1,7 +1,7 @@
 include ../../flags.mk
 
-DIRS = nodes
+DIRS = nodes parsers
 MOCS = 
-OBJS = context exception expression node rpn tokens translator
+OBJS = context exception expression node parser rpn tokens
 
 include ../../common.mk

@@ -40,12 +40,15 @@ namespace RPN
 	public:
 		OperatorNode(int precedence, Associativity associativity = LEFT, int arguments = 2);
 		
-		virtual int  arguments() const;
-		virtual int  associativity() const;
-		virtual bool isOperator() const;
-		virtual bool isRightAssociative() const;
-		virtual int  precedence() const;
-		virtual void translate(Translator& translator) const;
+		int  arguments() const;
+		int  associativity() const;
+		void infixParse(InfixParser& parser, Parser::Token& token) const;
+		Type infixPresents() const;
+		Type infixSucceeds() const;
+		bool isLeftAssociative() const;
+		bool isRightAssociative() const;
+		int  precedence() const;
+		Type type() const;
 	};
 }
 

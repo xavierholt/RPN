@@ -41,7 +41,7 @@ subs.merge_key('.', 'NUMBER')
 end
 
 ['(', '[', '{', '}', ']', ')'].each do |c|
-	init.merge_key(c, 'PARENTHESIS')
+	init.merge_key(c, 'BRACKET')
 end
 
 [' ', "\t", "\r", "\n"].each do |c|
@@ -54,13 +54,13 @@ end
 end
 
 File.open('tokens.cpp', 'w') do |f|
-	f << "#include \"translator.h\"\n\nnamespace RPN\n{"
+	f << "#include \"parser.h\"\n\nnamespace RPN\n{"
 	
-	f << "\n\tconst unsigned char Translator::cInitial[256] = {\n\t\t"
+	f << "\n\tconst unsigned char Parser::cInitial[256] = {\n\t\t"
 	f << init.join(",\n\t\t")
 	f << "\n\t};\n\t"
 	
-	f << "\n\tconst unsigned char Translator::cSubsequent[256] = {\n\t\t"
+	f << "\n\tconst unsigned char Parser::cSubsequent[256] = {\n\t\t"
 	f << subs.join(",\n\t\t")
 	f << "\n\t};\n}\n"
 end

@@ -33,13 +33,14 @@ namespace RPN
 		~Expression();
 		
 		Evaluator* buildEvaluator() const;
+		void       clear();
 		double     evaluate() const;
 		double     evaluate(Evaluator& evaluator) const;
 		void       parse(const std::string& string, const Context& context = Context::ROOT, Format format = INFIX);
 		
 		Expression& operator <<(const Node* node);
 		
-		friend class Translator;
+		friend class Parser;
 	};
 }
 
