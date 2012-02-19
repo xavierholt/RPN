@@ -55,6 +55,20 @@ namespace RPN
 		
 		Context::ROOT->insert("pi", new ConstantNode(RPN::Constants::PI));
 		Context::ROOT->insert("e", new ConstantNode(RPN::Constants::E));
+		
+		Context::ROOT->insert("sinh", new HyperbolicSineNode());
+		Context::ROOT->insert("cosh", new HyperbolicCosineNode());
+		Context::ROOT->insert("tanh", new HyperbolicTangentNode());
+		Context::ROOT->insert("csch", new HyperbolicCosecantNode());
+		Context::ROOT->insert("sech", new HyperbolicSecantNode());
+		Context::ROOT->insert("coth", new HyperbolicCotangentNode());
+		
+		Context::ROOT->insert("asinh", new HyperbolicArcSineNode());
+		Context::ROOT->insert("acosh", new HyperbolicArcCosineNode());
+		Context::ROOT->insert("atanh", new HyperbolicArcTangentNode());
+		Context::ROOT->insert("acsch", new HyperbolicArcCosecantNode());
+		Context::ROOT->insert("asech", new HyperbolicArcSecantNode());
+		Context::ROOT->insert("acoth", new HyperbolicArcCotangentNode());
 	}
 	
 	bool isValidName(const std::string& name)

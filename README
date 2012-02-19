@@ -2,6 +2,9 @@
 === RPN:  A simple Reverse Polish Notation parser and evaluator. ==============
 ===============================================================================
 
+By Kevin Burk
+Licensed under version 3 of the GNU General Public License
+
 --- Table of Contents ---------------------------------------------------------
 
  1. Introduction
@@ -82,7 +85,7 @@ that the parse function clears out the current expression:
     expr->parse("1 + 1");
     expr->parse("2 * 2");
 
-That convenience constructor and the parse function also take to optional
+That convenience constructor and the parse function also take two optional
 arguments: a Context and a Format.
 
 The Format argument is a hook for later development; right now, RPN can only

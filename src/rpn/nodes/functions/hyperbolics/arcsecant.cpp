@@ -15,7 +15,7 @@ namespace RPN
 	{
 		double arg = evaluator.pop();
 		double inv = 1.0 / arg;
-		return log(arg + sqrt((inv - 1) * (inv + 1)));
+		return log(inv + sqrt((inv - 1) * (inv + 1)));
 	}
 }
 
