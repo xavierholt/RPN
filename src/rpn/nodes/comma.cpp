@@ -5,6 +5,8 @@ namespace RPN
 {
 	void CommaNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
+		(void)(token); //Unused
+		
 		while(parser.hasStack())
 		{
 			if(parser.top().node->type() == Node::BRACKET)

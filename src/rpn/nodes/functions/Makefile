@@ -1,6 +1,6 @@
 include ../../../../flags.mk
 
-DIRS = exponentials trigonometry
+DIRS = exponentials hyperbolics trigonometry
 MOCS = 
 OBJS = 
 

@@ -15,14 +15,17 @@ namespace RPN
 	
 	void RightBracketNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
+		(void)(token); //Unused
+		
 		while(parser.hasStack())
 		{
-			Parser::Token token = parser.pop();
-			const Node* node = token.node;
+			Parser::Token tmp = parser.pop();
+			const Node* node = tmp.node;
 			
 			if(node->type() == Node::BRACKET)
 			{
 				const BracketNode* bracket = (BracketNode*) node;
+				
 				if(bracket->isClosedBy(this))
 				{
 					if(parser.hasStack() && parser.top().node->type() == Node::FUNCTION)
@@ -40,7 +43,7 @@ namespace RPN
 			}
 			else
 			{
-				parser.push_to_expression(token);
+				parser.push_to_expression(tmp);
 			}
 		}
 		

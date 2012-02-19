@@ -4,7 +4,7 @@ LIBDIR := $(ROOTDIR)/src/rpn
 SRCDIR := $(ROOTDIR)/src
 
 MOC := moc-qt4
-COMPILER := g++ -Wall -Wextra -std=c++0x -fdata-sections -ffunction-sections
+COMPILER := g++ -Wall -Wextra -Werror -std=c++0x -fdata-sections -ffunction-sections
 BUNDLER := ld -Ur
 
 ifdef DEBUG
