@@ -14,6 +14,7 @@ namespace RPN
 		InfixParser(const std::string& string, const Context& context);
 		
 		bool   hasStack() const;
+		void   parse(const std::string& string);
 		Token  pop();
 		void   push_to_stack(Token& token);
 		void   shunt();

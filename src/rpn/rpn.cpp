@@ -73,7 +73,7 @@ namespace RPN
 	
 	bool isValidName(const std::string& name)
 	{
-		auto i = name.begin();
+		std::string::const_iterator i = name.begin();
 		char type = Parser::cInitial[(int) *i];
 		
 		if(!type)
@@ -81,7 +81,7 @@ namespace RPN
 			return false;
 		}
 		
-		auto end = name.end();
+		std::string::const_iterator end = name.end();
 		for(++i; i != end; ++i)
 		{
 			if(Parser::cSubsequent[(int) *i] != type)

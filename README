@@ -52,7 +52,7 @@ just do it:
     RPN::initialize();
 
 You'll want to make an Expression, which is the most important (well, to you)
-component of the library.  Give it an infix string when you cunstruct it to
+component of the library.  Give it an infix string when you construct it to
 create an evaluable expression right away:
 
     RPN::Expression expr("1 + 2 - 3");
@@ -88,10 +88,11 @@ that the parse function clears out the current expression:
 That convenience constructor and the parse function also take two optional
 arguments: a Context and a Format.
 
-The Format argument is a hook for later development; right now, RPN can only
-parse Infix Notation, but I've got plans to expand it and also parse Polish and
-Reverse Polish Notations.  This argument is currently ignored.  That'll change
-when the new parsers are in.
+The Format argument lets you select what format your input string is in.  It
+defaults to INFIX, but you can also specify POSTFIX to parse expressions that
+are already in Reverse Polish Notation (note that currently, negative numbers
+in POSTFIX mode must be specified using the negation operator (3~), rather than
+the conventional notation (-3)).  PREFIX parsing may come in a future release.
 
 The Context argument lets you specify what "Context" your string is parsed in,
 and for that, we'll need to move on to:
@@ -221,7 +222,7 @@ order):
 
 Custom Operators should inherit from the RPN::OperatorNode class.  That works
 just about the same, but the RPN::OperatorNode constructor takes different
-arguments: a precedence, an associativity (this defaults to left), and a number
+arguments: a precedence, an associativity (this defaults to LEFT), and a number
 of arguments (which defaults to 2).  Besides that, though, it's just like
 implementing a Function:
 

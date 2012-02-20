@@ -50,9 +50,12 @@ namespace RPN
 	public:
 		Parser(const Context& context);
 		
-		Token next(std::string::const_iterator& itr, std::string::const_iterator& end);
-		void  push_to_expression(Token& token);
-		void  store(Expression& expression);
+		void         checkResult();
+		Token        next(std::string::const_iterator& itr, std::string::const_iterator& end);
+		virtual void parse(const std::string& string) = 0;
+		void         push_to_expression(Token& token);
+		void         reset();
+		void         store(Expression& expression);
 	};
 }
 

@@ -3,6 +3,9 @@
 
 namespace RPN
 {
+	typedef std::map<std::string, const Node*>::iterator CItr;
+	typedef std::map<std::string, const Node*>::const_iterator CCItr;
+	
 	Context* Context::ROOT = 0;
 	
 	Context::Context(const Context* parent): mParent(parent)
@@ -12,8 +15,8 @@ namespace RPN
 	
 	Context::~Context()
 	{
-		auto end = mHash.end();
-		for(auto i = mHash.begin(); i != end; ++i)
+		CItr end = mHash.end();
+		for(CItr i = mHash.begin(); i != end; ++i)
 		{
 			(*i).second->dereference();
 		}
@@ -28,7 +31,7 @@ namespace RPN
 	
 	const Node* Context::lookup(std::string string) const
 	{
-		auto ref = mHash.find(string);
+		CCItr ref = mHash.find(string);
 		if(ref == mHash.end())
 		{
 			if(mParent)
@@ -48,7 +51,7 @@ namespace RPN
 	
 	bool Context::remove(std::string string)
 	{
-		auto ref = mHash.find(string);
+		CItr ref = mHash.find(string);
 		if(ref != mHash.end())
 		{
 			(*ref).second->dereference();

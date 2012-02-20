@@ -12,8 +12,19 @@ namespace RPN
 {
 	InfixParser::InfixParser(const std::string& string, const Context& context): Parser(context)
 	{
-		auto itr = string.begin();
-		auto end = string.end();
+		parse(string);
+	}
+	
+	bool InfixParser::hasStack() const
+	{
+		return (mStack.size() > 0);
+	}
+	
+	void InfixParser::parse(const std::string& string)
+	{
+		reset();
+		std::string::const_iterator itr = string.begin();
+		std::string::const_iterator end = string.end();
 		
 		int presented = Node::OPERATOR;
 		Parser::Token token;
@@ -73,18 +84,7 @@ namespace RPN
 			shunt();
 		}
 		
-		if(mAvailable != 1)
-		{
-			std::ostringstream mess;
-			//TODO: Clarify this error message:
-			mess << "Invalid expression: Expected 1 result; got " << mAvailable;
-			throw Exception(mess.str());
-		}
-	}
-	
-	bool InfixParser::hasStack() const
-	{
-		return (mStack.size() > 0);
+		checkResult();
 	}
 	
 	Parser::Token InfixParser::pop()

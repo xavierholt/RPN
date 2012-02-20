@@ -24,6 +24,11 @@ namespace RPN
 		return 0.0;
 	}
 	
+	bool Node::isVolatile() const
+	{
+		return false;
+	}
+	
 	void Node::reference() const
 	{
 		++mReferenceCount;

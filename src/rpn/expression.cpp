@@ -1,11 +1,18 @@
+#ifndef RPN_LIBHEADER
+	#include <sstream>
+#endif
+
+#include "exception.h"
 #include "expression.h"
 #include "evaluator.h"
 #include "node.h"
-#include "parser.h"
 #include "parsers/all.h"
 
 namespace RPN
 {
+	typedef std::vector<const Node*>::iterator EItr;
+	typedef std::vector<const Node*>::const_iterator ECItr;
+	
 	Expression::Expression()
 	{
 		//Nothing to do...
@@ -28,49 +35,91 @@ namespace RPN
 		return ret;
 	}
 	
+	bool Expression::cache() const
+	{
+		if(mIsVolatile)
+		{
+			return false;
+		}
+		else
+		{
+			if(!mIsCached)
+			{
+				mResult = evaluate();
+				mIsCached = true;
+			}
+			
+			return true;
+		}
+	}
+	
 	void Expression::clear()
 	{
-		auto end = mStack.end();
-		for(auto i = mStack.begin(); i < end; ++i)
+		EItr end = mStack.end();
+		for(EItr i = mStack.begin(); i < end; ++i)
 		{
 			(*i)->dereference();
 		}
 		
+		mIsCached = false;
+		mIsVolatile = false;
 		mStack.clear();
 	}
 	
 	double Expression::evaluate() const
 	{
+		if(cache())
+		{
+			return mResult;
+		}
+		
 		Evaluator evaluator;
-		evaluator.reserve(mMaxAvailable);
 		return evaluate(evaluator);
 	}
 	
 	double Expression::evaluate(Evaluator& evaluator) const
 	{
-		auto end = mStack.end();
-		for(auto i = mStack.begin(); i < end; ++i)
+		if(cache())
+		{
+			return mResult;
+		}
+		
+		evaluator.reserve(evaluator.size() + mMaxAvailable);
+		
+		ECItr end = mStack.end();
+		for(ECItr i = mStack.begin(); i < end; ++i)
 		{
 			evaluator.push_back((*i)->evaluate(evaluator));
 		}
 		
-		return evaluator.back();
+		return evaluator.pop();
 	}
 	
 	void Expression::parse(const std::string& string, const Context& context, Format format)
 	{
-		(void)(format); //Unused (for now)...
-		
-		clear();
-		//TODO: Add the RPN parser / format switch...
-		InfixParser parser(string, context);
-		parser.store(*this);
+		if(format == INFIX)
+		{
+			InfixParser parser(string, context);
+			parser.store(*this);
+		}
+		else if(format == POSTFIX)
+		{
+			PostfixParser parser(string, context);
+			parser.store(*this);
+		}
+		else
+		{
+			std::ostringstream mess;
+			mess << "Unknown format: " << format;
+			throw Exception(mess.str());
+		}
 	}
 	
 	Expression& Expression::operator <<(const Node* node)
 	{
 		node->reference();
 		mStack.push_back(node);
+		mIsVolatile |= node->isVolatile();
 		return *this;
 	}
 }

@@ -27,6 +27,7 @@ namespace RPN
 		virtual void   infixParse(InfixParser& parser, Parser::Token& token) const = 0;
 		virtual Type   infixPresents() const = 0;
 		virtual Type   infixSucceeds() const = 0;
+		virtual bool   isVolatile() const;
 		virtual void   reference() const;
 		virtual Type   type() const = 0;
 	};

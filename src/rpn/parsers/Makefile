@@ -2,6 +2,6 @@ include ../../../flags.mk
 
 DIRS = 
 MOCS = 
-OBJS = infix
+OBJS = infix postfix
 
 include ../../../common.mk

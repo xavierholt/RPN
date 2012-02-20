@@ -1,4 +1,5 @@
 #ifndef RPN_LIBHEADER
+	#include <cstdlib>
 	#include <sstream>
 #endif
 
@@ -10,6 +11,9 @@
 
 namespace RPN
 {
+	typedef std::vector<const Node*>::iterator EItr;
+	typedef std::vector<const Node*>::const_iterator ECItr;
+	
 	Parser::Token::Token(): name(""), node(NULL)
 	{
 		//Nothing else to do...
@@ -27,12 +31,20 @@ namespace RPN
 		return *this;
 	}
 	
-	Parser::Parser(const Context& context):
-		mAvailable(0),
-		mMaxAvailable(0),
-		mContext(context)
+	Parser::Parser(const Context& context): mContext(context)
 	{
 		//Nothing else to do...
+	}
+	
+	void Parser::checkResult()
+	{
+		if(mAvailable != 1)
+		{
+			std::ostringstream mess;
+			//TODO: Clarify this error message:
+			mess << "Invalid expression: Expected 1 result; got " << mAvailable;
+			throw Exception(mess.str());
+		}
 	}
 	
 	Parser::Token Parser::next(std::string::const_iterator& itr, std::string::const_iterator& end)
@@ -110,12 +122,19 @@ namespace RPN
 		mExpression.push_back(token.node);
 	}
 	
+	void Parser::reset()
+	{
+		mAvailable = 0;
+		mMaxAvailable = 0;
+		mExpression.clear();
+	}
+	
 	void Parser::store(Expression& expression)
 	{
 		expression.clear();
 		
-		auto end = mExpression.end();
-		for(auto i = mExpression.begin(); i != end; ++i)
+		EItr end = mExpression.end();
+		for(EItr i = mExpression.begin(); i != end; ++i)
 		{
 			expression << *i;
 		}

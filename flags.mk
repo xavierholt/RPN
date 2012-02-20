@@ -3,19 +3,12 @@ BINDIR := $(ROOTDIR)/bin
 LIBDIR := $(ROOTDIR)/src/rpn
 SRCDIR := $(ROOTDIR)/src
 
-MOC := moc-qt4
-COMPILER := g++ -Wall -Wextra -Werror -std=c++0x -fdata-sections -ffunction-sections
+COMPILER := g++ -Wall -Wextra -Werror -ansi -O3
 BUNDLER := ld -Ur
 
 ifdef DEBUG
 	COMPILER := $(COMPILER) -g
 endif
 
-LINKER := $(COMPILER)
-
-ifdef RELEASE
-	COMPILER := $(COMPILER) -O3
-	LINKER := $(LINKER) -Wl,--gc-sections,-s
-endif
-
+LINKER := $(COMPILER) -Wl,--gc-sections,-s
 

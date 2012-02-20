@@ -12,5 +12,10 @@ namespace RPN
 		(void)(evaluator); //Unused
 		return *mVariable;
 	}
+	
+	bool VariableNode::isVolatile() const
+	{
+		return true;
+	}
 }
 

@@ -12,5 +12,10 @@ namespace RPN
 	{
 		return mExpression->evaluate(evaluator);
 	}
+	
+	bool ExpressionNode::isVolatile() const
+	{
+		return true;
+	}
 }
 

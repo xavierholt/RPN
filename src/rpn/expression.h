@@ -19,13 +19,15 @@ namespace RPN
 		enum Format
 		{
 			INFIX,
-			RPN
+			POSTFIX
 		};
 		
 	protected:
-		int                      mMaxAvailable;
 		std::vector<const Node*> mStack;
-		double                   mResult;
+		mutable double           mResult;
+		int                      mMaxAvailable;
+		mutable bool             mIsCached;
+		mutable bool             mIsVolatile;
 		
 	public:
 		Expression();
@@ -33,6 +35,7 @@ namespace RPN
 		~Expression();
 		
 		Evaluator* buildEvaluator() const;
+		bool       cache() const;
 		void       clear();
 		double     evaluate() const;
 		double     evaluate(Evaluator& evaluator) const;
