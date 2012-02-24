@@ -14,7 +14,7 @@ int main()
 	
 	while(std::cin.good())
 	{
-		std::cout << "rpn> ";
+		std::cout << "\nrpn> ";
 		getline(std::cin, input);
 		
 		if(!std::cin.good() || input == "exit")

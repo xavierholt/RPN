@@ -35,24 +35,6 @@ namespace RPN
 		return ret;
 	}
 	
-	bool Expression::cache() const
-	{
-		if(mIsVolatile)
-		{
-			return false;
-		}
-		else
-		{
-			if(!mIsCached)
-			{
-				mResult = evaluate();
-				mIsCached = true;
-			}
-			
-			return true;
-		}
-	}
-	
 	void Expression::clear()
 	{
 		EItr end = mStack.end();
@@ -61,14 +43,14 @@ namespace RPN
 			(*i)->dereference();
 		}
 		
+		mStack.clear();
 		mIsCached = false;
 		mIsVolatile = false;
-		mStack.clear();
 	}
 	
 	double Expression::evaluate() const
 	{
-		if(cache())
+		if(mIsCached)
 		{
 			return mResult;
 		}
@@ -79,7 +61,7 @@ namespace RPN
 	
 	double Expression::evaluate(Evaluator& evaluator) const
 	{
-		if(cache())
+		if(mIsCached)
 		{
 			return mResult;
 		}
@@ -92,7 +74,15 @@ namespace RPN
 			evaluator.push_back((*i)->evaluate(evaluator));
 		}
 		
-		return evaluator.pop();
+		double ret = evaluator.pop();
+		
+		if(!mIsVolatile)
+		{
+			mResult = ret;
+			mIsCached = true;
+		}
+		
+		return ret;
 	}
 	
 	void Expression::parse(const std::string& string, const Context& context, Format format)

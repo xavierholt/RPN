@@ -35,7 +35,6 @@ namespace RPN
 		~Expression();
 		
 		Evaluator* buildEvaluator() const;
-		bool       cache() const;
 		void       clear();
 		double     evaluate() const;
 		double     evaluate(Evaluator& evaluator) const;
