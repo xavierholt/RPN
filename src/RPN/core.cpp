@@ -1,6 +1,7 @@
+#include "context.h"
+#include "core.h"
 #include "nodes/all.h"
 #include "parser.h"
-#include "rpn.h"
 
 namespace RPN
 {

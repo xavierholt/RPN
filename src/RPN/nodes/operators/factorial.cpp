@@ -3,7 +3,7 @@
 #endif
 
 #include "factorial.h"
-#include "../../rpn.h"
+#include "../../core.h"
 
 namespace RPN
 {

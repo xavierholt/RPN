@@ -1,5 +1,5 @@
 #include <iostream>
-#include "rpn/rpn.h"
+#include "../RPN/libheader.h"
 
 int main()
 {

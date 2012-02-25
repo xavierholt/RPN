@@ -1,8 +1,0 @@
-#! /usr/bin/env ruby
-require '/home/holt/Dropbox/Code/puby/makemake'
-
-maker = MakeMaker.new
-maker.set_template(0, false)
-maker.set_template(1, false)
-
-maker.run!
