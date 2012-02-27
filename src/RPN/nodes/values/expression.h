@@ -28,13 +28,12 @@ namespace RPN
 	class ExpressionNode : public ValueNode
 	{
 	protected:
-		const Expression* mExpression;
+		const Expression& mExpression;
 		
 	public:
-		ExpressionNode(const Expression* expression);
+		ExpressionNode(const Expression& expression);
 		
 		virtual double evaluate(Evaluator& evaluator) const;
-		virtual bool   isVolatile() const;
 	};
 }
 

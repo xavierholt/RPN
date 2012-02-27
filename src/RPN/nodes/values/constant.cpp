@@ -25,6 +25,11 @@ namespace RPN
 		//Nothing else to do...
 	}
 	
+	Node::Flags ConstantNode::flags() const
+	{
+		return Node::Flags(Node::VALUE | Node::SUCCEEDS_OP | Node::ALLFIX);
+	}
+	
 	double ConstantNode::evaluate(Evaluator& evaluator) const
 	{
 		(void)(evaluator); //Unused

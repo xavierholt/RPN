@@ -44,14 +44,14 @@ namespace RPN
 		std::string::const_iterator itr = string.begin();
 		std::string::const_iterator end = string.end();
 		
-		int presented = Node::OPERATOR;
+		Node::Flags flags = Node::PRESENTS_OP;
 		Parser::Token token;
 		
 		while((token = next(itr, end)).node != NULL)
 		{
-			if(token.node->infixSucceeds() != presented)
+			if(!token.node->succeeds(flags))
 			{
-				if(presented == Node::OPERATOR)
+				if(flags & Node::PRESENTS_OP)
 				{
 					//TODO: Configurable implicit negation
 					if(token.name == "-")
@@ -87,12 +87,12 @@ namespace RPN
 			}
 			
 			token.node->infixParse(*this, token);
-			presented = token.node->infixPresents();
+			flags = token.node->flags();
 		}
 		
 		while(hasStack())
 		{
-			if(top().node->type() == Node::BRACKET)
+			if(top().node->isBracket())
 			{
 				std::ostringstream mess;
 				mess << "Bracket mismatch: Unclosed '" << ((BracketNode*) top().node)->opener() << '\'';

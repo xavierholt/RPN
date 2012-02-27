@@ -39,10 +39,5 @@ namespace RPN
 	{
 		return (other->mCloser == mCloser);
 	}
-	
-	Node::Type BracketNode::type() const
-	{
-		return Node::BRACKET;
-	}
 }
 

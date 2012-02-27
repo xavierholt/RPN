@@ -27,12 +27,22 @@ namespace RPN
 	class Node
 	{
 	public:
-		enum Type
+		enum Flags
 		{
-			BRACKET  = 0x01,
-			FUNCTION = 0x02,
-			OPERATOR = 0x04,
-			VALUE    = 0x08
+			BRACKET     = 0x0001,
+			FUNCTION    = 0x0002,
+			OPERATOR    = 0x0004,
+			VALUE       = 0x0008,
+			
+			VOLATILE    = 0x0010,
+			
+			SUCCEEDS_OP = 0x0100,
+			PRESENTS_OP = 0x0200,
+			
+			INFIX       = 0x1000,
+			POSTFIX     = 0x2000,
+			PREFIX      = 0x4000,
+			ALLFIX      = INFIX | POSTFIX | PREFIX
 		};
 		
 	protected:
@@ -40,14 +50,21 @@ namespace RPN
 		
 	public:
 		virtual int    arguments() const;
-		virtual void   dereference() const;
 		virtual double evaluate(Evaluator& evaluator) const;
 		virtual void   infixParse(InfixParser& parser, Parser::Token& token) const = 0;
-		virtual Type   infixPresents() const = 0;
-		virtual Type   infixSucceeds() const = 0;
-		virtual bool   isVolatile() const;
-		virtual void   reference() const;
-		virtual Type   type() const = 0;
+		virtual Flags  flags() const = 0;
+		
+		inline void dereference() const     {if(--mReferenceCount <= 0) delete this;}
+		inline bool isBracket() const       {return flags() & BRACKET;}
+		inline bool isFunction() const      {return flags() & FUNCTION;}
+		inline bool isInfix() const         {return flags() & INFIX;}
+		inline bool isOperator() const      {return flags() & OPERATOR;}
+		inline bool isPostfix() const       {return flags() & POSTFIX;}
+		inline bool isPrefix() const        {return flags() & PREFIX;}
+		inline bool isValue() const         {return flags() & VALUE;}
+		inline bool isVolatile() const      {return flags() & VOLATILE;}
+		inline void reference() const       {++mReferenceCount;}
+		inline bool succeeds(Flags f) const {return (~(flags() ^ (f >> 1))) & SUCCEEDS_OP;}
 	};
 }
 

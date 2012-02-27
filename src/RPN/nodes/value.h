@@ -26,11 +26,9 @@ namespace RPN
 	class ValueNode : public Node
 	{
 	public:
-		virtual int  arguments() const;
-		virtual void infixParse(InfixParser& parser, Parser::Token& token) const;
-		virtual Type infixPresents() const;
-		virtual Type infixSucceeds() const;
-		virtual Type type() const;
+		virtual int   arguments() const;
+		virtual Flags flags() const;
+		virtual void  infixParse(InfixParser& parser, Parser::Token& token) const;
 	};
 }
 

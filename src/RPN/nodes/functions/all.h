@@ -16,6 +16,10 @@
    You should have received a copy of the GNU General Public License along
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
+#include "absolutevalue.h"
+#include "maximum.h"
+#include "minimum.h"
+
 #include "exponentials/all.h"
 #include "hyperbolics/all.h"
 #include "trigonometry/all.h"

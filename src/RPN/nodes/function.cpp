@@ -31,24 +31,14 @@ namespace RPN
 		return mArguments;
 	}
 	
+	Node::Flags FunctionNode::flags() const
+	{
+		return Node::Flags(Node::FUNCTION| Node::SUCCEEDS_OP | Node::PRESENTS_OP | Node::ALLFIX);
+	}
+	
 	void FunctionNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		parser.push_to_stack(token);
-	}
-	
-	Node::Type FunctionNode::infixPresents() const
-	{
-		return Node::OPERATOR;
-	}
-	
-	Node::Type FunctionNode::infixSucceeds() const
-	{
-		return Node::OPERATOR;
-	}
-	
-	Node::Type FunctionNode::type() const
-	{
-		return Node::FUNCTION;
 	}
 }
 

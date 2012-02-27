@@ -32,6 +32,7 @@ namespace RPN
 		ConstantNode(double value);
 		
 		virtual double evaluate(Evaluator& evaluator) const;
+		virtual Flags  flags() const;
 	};
 }
 

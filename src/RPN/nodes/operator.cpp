@@ -49,6 +49,22 @@ namespace RPN
 		return mAssociativity;
 	}
 	
+	Node::Flags OperatorNode::flags() const
+	{
+		unsigned int ret = Node::OPERATOR | Node::ALLFIX;
+		
+		if(mArguments == 1 && isRightAssociative())
+		{
+			ret |= Node::PRESENTS_OP | Node::SUCCEEDS_OP;
+		}
+		else
+		{
+			ret |= Node::PRESENTS_OP;
+		}
+		
+		return Node::Flags(ret);
+	}
+	
 	void OperatorNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		int comp = precedence() - isRightAssociative();
@@ -58,7 +74,7 @@ namespace RPN
 			Parser::Token token = parser.top();
 			const Node* node = token.node;
 			
-			if(node->type() == Node::OPERATOR && ((const OperatorNode*)node)->precedence() >= comp)
+			if(node->isOperator() && ((const OperatorNode*)node)->precedence() >= comp)
 			{
 				parser.shunt();
 			}
@@ -69,30 +85,6 @@ namespace RPN
 		}
 		
 		parser.push_to_stack(token);
-	}
-	
-	Node::Type OperatorNode::infixPresents() const
-	{
-		if(mArguments == 2 || isRightAssociative())
-		{
-			return Node::OPERATOR;
-		}
-		else
-		{
-			return Node::VALUE;
-		}
-	}
-	
-	Node::Type OperatorNode::infixSucceeds() const
-	{
-		if(mArguments == 2 || isLeftAssociative())
-		{
-			return Node::VALUE;
-		}
-		else
-		{
-			return Node::OPERATOR;
-		}
 	}
 	
 	bool OperatorNode::isLeftAssociative() const
@@ -108,11 +100,6 @@ namespace RPN
 	int OperatorNode::precedence() const
 	{
 		return mPrecedence;
-	}
-	
-	Node::Type OperatorNode::type() const
-	{
-		return Node::OPERATOR;
 	}
 }
 

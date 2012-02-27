@@ -58,15 +58,14 @@ namespace RPN
 	public:
 		OperatorNode(int precedence, Associativity associativity = LEFT, int arguments = 2);
 		
-		int  arguments() const;
+		virtual int   arguments() const;
+		virtual Flags flags() const;
+		virtual void  infixParse(InfixParser& parser, Parser::Token& token) const;
+		
 		int  associativity() const;
-		void infixParse(InfixParser& parser, Parser::Token& token) const;
-		Type infixPresents() const;
-		Type infixSucceeds() const;
 		bool isLeftAssociative() const;
 		bool isRightAssociative() const;
 		int  precedence() const;
-		Type type() const;
 	};
 }
 

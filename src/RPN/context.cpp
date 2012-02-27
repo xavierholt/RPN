@@ -17,16 +17,103 @@
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 #include "context.h"
-#include "node.h"
+#include "core.h"
+#include "nodes/all.h"
+
+#include <iostream>
 
 namespace RPN
 {
-	typedef std::map<std::string, const Node*>::iterator CItr;
-	typedef std::map<std::string, const Node*>::const_iterator CCItr;
+	typedef ContextMap::iterator CItr;
+	typedef ContextMap::const_iterator CCItr;
 	
-	Context* Context::ROOT = 0;
+	inline void initialize_node(ContextMap& map, const std::string& string, const Node* node)
+	{
+		node->reference();
+		map[string] = node;
+	}
+	
+	ContextMap initialize_root_context()
+	{
+		ContextMap map;
+		
+		initialize_node(map, ",", new CommaNode());
+		
+		initialize_node(map, "(", new LeftBracketNode('(', ')'));
+		initialize_node(map, ")", new RightBracketNode('(', ')'));
+		initialize_node(map, "[", new LeftBracketNode('[', ']'));
+		initialize_node(map, "]", new RightBracketNode('[', ']'));
+		initialize_node(map, "{", new LeftBracketNode('{', '}'));
+		initialize_node(map, "}", new RightBracketNode('{', '}'));
+		
+		initialize_node(map, "+", new AdditionNode());
+		initialize_node(map, "-", new SubtractionNode());
+		initialize_node(map, "*", new MultiplicationNode());
+		initialize_node(map, "/", new DivisionNode());
+		initialize_node(map, "%", new ModuloNode());
+		initialize_node(map, "~", new NegationNode());
+		initialize_node(map, "^", new ExponentiationNode());
+		initialize_node(map, "!", new FactorialNode());
+		
+		initialize_node(map, "abs", new AbsoluteValueNode());
+		initialize_node(map, "max", new MaximumNode());
+		initialize_node(map, "min", new MinimumNode());
+		
+		initialize_node(map, "pow", new PowerNode());
+		initialize_node(map, "exp", new ExponentialNode());
+		initialize_node(map, "root", new RootNode());
+		initialize_node(map, "sqrt", new SquareRootNode());
+		
+		initialize_node(map, "ln", new NaturalLogarithmNode());
+		initialize_node(map, "log", new LogarithmNode());
+		initialize_node(map, "log2", new BinaryLogarithmNode());
+		initialize_node(map, "log10", new DecadicLogarithmNode());
+		
+		initialize_node(map, "sin", new SineNode());
+		initialize_node(map, "cos", new CosineNode());
+		initialize_node(map, "tan", new TangentNode());
+		initialize_node(map, "csc", new CosecantNode());
+		initialize_node(map, "sec", new SecantNode());
+		initialize_node(map, "cot", new CotangentNode());
+		
+		initialize_node(map, "asin", new ArcSineNode());
+		initialize_node(map, "acos", new ArcCosineNode());
+		initialize_node(map, "atan", new ArcTangentNode());
+		initialize_node(map, "acsc", new ArcCosecantNode());
+		initialize_node(map, "asec", new ArcSecantNode());
+		initialize_node(map, "acot", new ArcCotangentNode());
+		
+		initialize_node(map, "atan2", new ArcTangent2Node());
+		initialize_node(map, "acot2", new ArcCotangent2Node());
+		
+		initialize_node(map, "pi", new ConstantNode(RPN::Constants::PI));
+		initialize_node(map, "e", new ConstantNode(RPN::Constants::E));
+		
+		initialize_node(map, "sinh", new HyperbolicSineNode());
+		initialize_node(map, "cosh", new HyperbolicCosineNode());
+		initialize_node(map, "tanh", new HyperbolicTangentNode());
+		initialize_node(map, "csch", new HyperbolicCosecantNode());
+		initialize_node(map, "sech", new HyperbolicSecantNode());
+		initialize_node(map, "coth", new HyperbolicCotangentNode());
+		
+		initialize_node(map, "asinh", new HyperbolicArcSineNode());
+		initialize_node(map, "acosh", new HyperbolicArcCosineNode());
+		initialize_node(map, "atanh", new HyperbolicArcTangentNode());
+		initialize_node(map, "acsch", new HyperbolicArcCosecantNode());
+		initialize_node(map, "asech", new HyperbolicArcSecantNode());
+		initialize_node(map, "acoth", new HyperbolicArcCotangentNode());
+		
+		return map;
+	}
+	
+	const Context Context::ROOT(initialize_root_context(), NULL);
 	
 	Context::Context(const Context* parent): mParent(parent)
+	{
+		//Nothing else to do...
+	}
+	
+	Context::Context(const ContextMap& map, const Context* parent): mHash(map), mParent(parent)
 	{
 		//Nothing else to do...
 	}
@@ -40,14 +127,14 @@ namespace RPN
 		}
 	}
 	
-	void Context::insert(std::string string, const Node* node)
+	void Context::insert(const std::string& string, const Node* node)
 	{
 		remove(string);
 		node->reference();
 		mHash[string] = node;
 	}
 	
-	const Node* Context::lookup(std::string string) const
+	const Node* Context::lookup(const std::string& string) const
 	{
 		CCItr ref = mHash.find(string);
 		if(ref == mHash.end())
@@ -67,7 +154,7 @@ namespace RPN
 		}
 	}
 	
-	bool Context::remove(std::string string)
+	bool Context::remove(const std::string& string)
 	{
 		CItr ref = mHash.find(string);
 		if(ref != mHash.end())

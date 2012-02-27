@@ -27,28 +27,10 @@ namespace RPN
 		return -1;
 	}
 	
-	void Node::dereference() const
-	{
-		if(--mReferenceCount <= 0)
-		{
-			delete this;
-		}
-	}
-	
 	double Node::evaluate(Evaluator& evaluator) const
 	{
 		(void)(evaluator); //Unused
 		throw Exception("This node was never meant to be evaluated!");
 		return 0.0;
-	}
-	
-	bool Node::isVolatile() const
-	{
-		return false;
-	}
-	
-	void Node::reference() const
-	{
-		++mReferenceCount;
 	}
 }

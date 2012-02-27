@@ -35,7 +35,6 @@ namespace RPN
 		char closer() const;
 		char opener() const;
 		bool isClosedBy(const BracketNode* other) const;
-		Type type() const;
 	};
 }
 

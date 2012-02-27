@@ -28,9 +28,8 @@ namespace RPN
 	public:
 		RightBracketNode(char opener, char closer);
 		
-		virtual void infixParse(InfixParser& parser, Parser::Token& token) const;
-		virtual Type infixPresents() const;
-		virtual Type infixSucceeds() const;
+		virtual Flags flags() const;
+		virtual void  infixParse(InfixParser& parser, Parser::Token& token) const;
 	};
 }
 

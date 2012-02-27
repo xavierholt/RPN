@@ -16,24 +16,20 @@
    You should have received a copy of the GNU General Public License along
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-#include "../parsers/infix.h"
-#include "value.h"
+#include "minimum.h"
 
 namespace RPN
 {
-	int ValueNode::arguments() const
+	MinimumNode::MinimumNode(): FunctionNode(2)
 	{
-		return 0;
+		//Nothing else to do...
 	}
 	
-	Node::Flags ValueNode::flags() const
+	double MinimumNode::evaluate(Evaluator& evaluator) const
 	{
-		return Node::Flags(Node::VALUE | Node::VOLATILE | Node::SUCCEEDS_OP | Node::ALLFIX);
-	}
-	
-	void ValueNode::infixParse(InfixParser& parser, Parser::Token& token) const
-	{
-		parser.push_to_expression(token);
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
+		return (arg1 < arg2)? arg1 : arg2;
 	}
 }
 

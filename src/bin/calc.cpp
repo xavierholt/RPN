@@ -24,8 +24,6 @@ int main()
 	double ans = 0;
 	std::string input;
 	
-	RPN::initialize();
-	
 	RPN::Context context;
 	RPN::Expression expression;
 	context.insert("ans", new RPN::VariableNode(&ans));
@@ -49,9 +47,9 @@ int main()
 				ans = expression.evaluate();
 				std::cout << ans;
 			}
-			catch(RPN::Exception e)
+			catch(RPN::Exception& e)
 			{
-				std::cout << "Error: " << e.what();
+				std::cout << e.what();
 			}
 		}
 	}

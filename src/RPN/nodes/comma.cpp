@@ -21,13 +21,18 @@
 
 namespace RPN
 {
+	Node::Flags CommaNode::flags() const
+	{
+		return Node::Flags(Node::PRESENTS_OP | Node::SUCCEEDS_OP | Node::INFIX);
+	}
+	
 	void CommaNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		(void)(token); //Unused
 		
 		while(parser.hasStack())
 		{
-			if(parser.top().node->type() == Node::BRACKET)
+			if(parser.top().node->isBracket())
 			{
 				return;
 			}
@@ -36,22 +41,6 @@ namespace RPN
 				parser.shunt();
 			}
 		}
-	}
-	
-	Node::Type CommaNode::infixPresents() const
-	{
-		return Node::OPERATOR;
-	}
-	
-	Node::Type CommaNode::infixSucceeds() const
-	{
-		return Node::VALUE;
-	}
-	
-	Node::Type CommaNode::type() const
-	{
-		//TODO: Is this correct?  Should there be a COMMA type?
-		return Node::OPERATOR;
 	}
 }
 

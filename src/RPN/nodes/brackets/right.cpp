@@ -31,6 +31,11 @@ namespace RPN
 		//Nothing else to do...
 	}
 	
+	Node::Flags RightBracketNode::flags() const
+	{
+		return Node::Flags(Node::BRACKET | Node::INFIX);
+	}
+	
 	void RightBracketNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		(void)(token); //Unused
@@ -40,13 +45,13 @@ namespace RPN
 			Parser::Token tmp = parser.pop();
 			const Node* node = tmp.node;
 			
-			if(node->type() == Node::BRACKET)
+			if(node->isBracket())
 			{
 				const BracketNode* bracket = (BracketNode*) node;
 				
 				if(bracket->isClosedBy(this))
 				{
-					if(parser.hasStack() && parser.top().node->type() == Node::FUNCTION)
+					if(parser.hasStack() && parser.top().node->isFunction())
 					{
 						parser.shunt();
 					}
@@ -68,16 +73,6 @@ namespace RPN
 		std::ostringstream mess;
 		mess << "Bracket mismatch: Unmatched '" << closer() << '\'';
 		throw Exception(mess.str());
-	}
-	
-	Node::Type RightBracketNode::infixPresents() const
-	{
-		return Node::VALUE;
-	}
-	
-	Node::Type RightBracketNode::infixSucceeds() const
-	{
-		return Node::VALUE;
 	}
 }
 

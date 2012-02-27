@@ -26,19 +26,14 @@ namespace RPN
 		//Nothing else to do...
 	}
 	
+	Node::Flags LeftBracketNode::flags() const
+	{
+		return Node::Flags(Node::BRACKET | Node::PRESENTS_OP | Node::SUCCEEDS_OP | Node::INFIX);
+	}
+	
 	void LeftBracketNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		parser.push_to_stack(token);
-	}
-	
-	Node::Type LeftBracketNode::infixPresents() const
-	{
-		return Node::OPERATOR;
-	}
-	
-	Node::Type LeftBracketNode::infixSucceeds() const
-	{
-		return Node::OPERATOR;
 	}
 }
 

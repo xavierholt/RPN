@@ -16,24 +16,23 @@
    You should have received a copy of the GNU General Public License along
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-#include "../parsers/infix.h"
-#include "value.h"
+#ifndef RPN_LIBHEADER
+	#include <cmath>
+#endif
+
+#include "absolutevalue.h"
 
 namespace RPN
 {
-	int ValueNode::arguments() const
+	AbsoluteValueNode::AbsoluteValueNode(): FunctionNode(1)
 	{
-		return 0;
+		//Nothing else to do...
 	}
 	
-	Node::Flags ValueNode::flags() const
+	double AbsoluteValueNode::evaluate(Evaluator& evaluator) const
 	{
-		return Node::Flags(Node::VALUE | Node::VOLATILE | Node::SUCCEEDS_OP | Node::ALLFIX);
-	}
-	
-	void ValueNode::infixParse(InfixParser& parser, Parser::Token& token) const
-	{
-		parser.push_to_expression(token);
+		double arg = evaluator.pop();
+		return fabs(arg);
 	}
 }
 

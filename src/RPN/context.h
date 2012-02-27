@@ -28,22 +28,25 @@ namespace RPN
 {
 	class Node;
 	
+	typedef std::map<const std::string, const Node*> ContextMap;
+	
 	class Context
 	{
 	public:
-		static Context* ROOT;
-		
+		static const Context ROOT;
+	
 	protected:
-		std::map<std::string, const Node*> mHash;
+		ContextMap     mHash;
 		const Context* mParent;
 		
 	public:
-		Context(const Context* parent = ROOT);
+		Context(const Context* parent = &ROOT);
+		Context(const ContextMap& map, const Context* parent = &ROOT);
 		~Context();
 		
-		void        insert(std::string str, const Node* node);
-		const Node* lookup(std::string) const;
-		bool        remove(std::string);
+		void        insert(const std::string& str, const Node* node);
+		const Node* lookup(const std::string&) const;
+		bool        remove(const std::string&);
 	};
 }
 
