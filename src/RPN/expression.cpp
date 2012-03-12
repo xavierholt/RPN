@@ -56,7 +56,7 @@ namespace RPN
 	void Expression::clear()
 	{
 		EItr end = mStack.end();
-		for(EItr i = mStack.begin(); i < end; ++i)
+		for(EItr i = mStack.begin(); i != end; ++i)
 		{
 			(*i)->dereference();
 		}
@@ -79,6 +79,12 @@ namespace RPN
 	
 	double Expression::evaluate(Evaluator& evaluator) const
 	{
+		if(mStack.size() < 1)
+		{
+			throw Exception("Attempted to evaluate an uninitialized expression.");
+			return 0.0;
+		}
+		
 		if(mIsCached)
 		{
 			return mResult;
@@ -87,7 +93,7 @@ namespace RPN
 		evaluator.reserve(evaluator.size() + mMaxAvailable);
 		
 		ECItr end = mStack.end();
-		for(ECItr i = mStack.begin(); i < end; ++i)
+		for(ECItr i = mStack.begin(); i != end; ++i)
 		{
 			evaluator.push_back((*i)->evaluate(evaluator));
 		}

@@ -20,7 +20,7 @@
 
 namespace RPN
 {
-	ConstantNode::ConstantNode(double value): mValue(value)
+	ConstantNode::ConstantNode(double value): ValueNode(), mValue(value)
 	{
 		//Nothing else to do...
 	}

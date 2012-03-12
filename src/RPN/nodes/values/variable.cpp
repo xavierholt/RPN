@@ -20,7 +20,7 @@
 
 namespace RPN
 {
-	VariableNode::VariableNode(const double* variable): mVariable(variable)
+	VariableNode::VariableNode(const double* variable): ValueNode(), mVariable(variable)
 	{
 		//Nothing else to do...
 	}
@@ -29,11 +29,6 @@ namespace RPN
 	{
 		(void)(evaluator); //Unused
 		return *mVariable;
-	}
-	
-	bool VariableNode::isVolatile() const
-	{
-		return true;
 	}
 }
 

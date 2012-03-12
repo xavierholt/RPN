@@ -19,6 +19,7 @@
 #ifndef RPN_PARSERS_INFIX_H
 #define RPN_PARSERS_INFIX_H
 
+#include "../context.h"
 #include "../parser.h"
 
 namespace RPN
@@ -28,11 +29,14 @@ namespace RPN
 	protected:
 		std::vector<Token> mStack;
 		
+	protected:
+		virtual void parseInternal(const std::string& string);
+		
 	public:
+		InfixParser(const Context& context = Context::ROOT);
 		InfixParser(const std::string& string, const Context& context);
 		
 		bool   hasStack() const;
-		void   parse(const std::string& string);
 		Token  pop();
 		void   push_to_stack(Token& token);
 		void   shunt();

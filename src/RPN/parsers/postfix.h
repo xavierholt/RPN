@@ -25,10 +25,12 @@ namespace RPN
 {
 	class PostfixParser : public Parser
 	{
-	public:
-		PostfixParser(const std::string& string, const Context& context);
+	protected:
+		virtual void parseInternal(const std::string& string);
 		
-		void parse(const std::string& string);
+	public:
+		PostfixParser(const Context& context);
+		PostfixParser(const std::string& string, const Context& context);
 	};
 }
 

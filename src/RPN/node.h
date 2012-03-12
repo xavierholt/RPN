@@ -49,6 +49,8 @@ namespace RPN
 		mutable int mReferenceCount;
 		
 	public:
+		Node();
+		
 		virtual int    arguments() const;
 		virtual double evaluate(Evaluator& evaluator) const;
 		virtual void   infixParse(InfixParser& parser, Parser::Token& token) const = 0;

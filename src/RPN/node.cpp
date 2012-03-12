@@ -21,6 +21,11 @@
 
 namespace RPN
 {
+	Node::Node(): mReferenceCount(0)
+	{
+		//Nothing else to do...
+	}
+	
 	int Node::arguments() const
 	{
 		throw Exception("This node was never meant to be translated!");

@@ -21,7 +21,7 @@
 
 namespace RPN
 {
-	FunctionNode::FunctionNode(int args): mArguments(args)
+	FunctionNode::FunctionNode(int args): Node(), mArguments(args)
 	{
 		//Nothing else to do...
 	}

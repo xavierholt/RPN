@@ -20,12 +20,17 @@
 
 namespace RPN
 {
+	PostfixParser::PostfixParser(const Context& context): Parser(context)
+	{
+		//Nothing else to do...
+	}
+	
 	PostfixParser::PostfixParser(const std::string& string, const Context& context): Parser(context)
 	{
 		parse(string);
 	}
 	
-	void PostfixParser::parse(const std::string& string)
+	void PostfixParser::parseInternal(const std::string& string)
 	{
 		reset();
 		std::string::const_iterator itr = string.begin();

@@ -21,6 +21,11 @@
 
 namespace RPN
 {
+	ValueNode::ValueNode(): Node()
+	{
+		//Nothing else to do...
+	}
+	
 	int ValueNode::arguments() const
 	{
 		return 0;

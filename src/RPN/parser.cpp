@@ -49,7 +49,7 @@ namespace RPN
 		return *this;
 	}
 	
-	Parser::Parser(const Context& context): mContext(context)
+	Parser::Parser(const Context& context): mContext(&context)
 	{
 		//Nothing else to do...
 	}
@@ -109,7 +109,7 @@ namespace RPN
 			token.node = new ConstantNode(strtod(token.name.c_str(), NULL));
 			break;
 		default:
-			token.node = mContext.lookup(token.name);
+			token.node = mContext->lookup(token.name);
 			if(token.node == NULL)
 			{
 				std::ostringstream mess;
@@ -119,6 +119,17 @@ namespace RPN
 		}
 		
 		return token;
+	}
+	
+	void Parser::parse(const std::string& string)
+	{
+		parseInternal(string);
+	}
+	
+	void Parser::parse(const std::string& string, const Context& context)
+	{
+		mContext = &context;
+		parseInternal(string);
 	}
 	
 	void Parser::push_to_expression(Parser::Token& token)

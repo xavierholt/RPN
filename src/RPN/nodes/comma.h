@@ -26,6 +26,8 @@ namespace RPN
 	class CommaNode : public Node
 	{
 	public:
+		CommaNode();
+		
 		virtual Flags flags() const;
 		virtual void  infixParse(InfixParser& parser, Parser::Token& token) const;
 	};

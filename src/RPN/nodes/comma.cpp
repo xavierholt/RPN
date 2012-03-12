@@ -21,6 +21,11 @@
 
 namespace RPN
 {
+	CommaNode::CommaNode(): Node()
+	{
+		//Nothing else to do...
+	}
+	
 	Node::Flags CommaNode::flags() const
 	{
 		return Node::Flags(Node::PRESENTS_OP | Node::SUCCEEDS_OP | Node::INFIX);

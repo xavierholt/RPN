@@ -24,9 +24,10 @@
 	#include <vector>
 #endif
 
+#include "context.h"
+
 namespace RPN
 {
-	class Context;
 	class Expression;
 	class Node;
 	
@@ -62,18 +63,22 @@ namespace RPN
 	protected:
 		int                      mAvailable;
 		int                      mMaxAvailable;
-		const Context&           mContext;
+		const Context*           mContext;
 		std::vector<const Node*> mExpression;
 		
-	public:
-		Parser(const Context& context);
+	protected:
+		virtual void parseInternal(const std::string& string) = 0;
 		
-		void         checkResult();
-		Token        next(std::string::const_iterator& itr, std::string::const_iterator& end);
-		virtual void parse(const std::string& string) = 0;
-		void         push_to_expression(Token& token);
-		void         reset();
-		void         store(Expression& expression);
+	public:
+		Parser(const Context& context = Context::ROOT);
+		
+		void  checkResult();
+		Token next(std::string::const_iterator& itr, std::string::const_iterator& end);
+		void  parse(const std::string& string);
+		void  parse(const std::string& string, const Context& context);
+		void  push_to_expression(Token& token);
+		void  reset();
+		void  store(Expression& expression);
 	};
 }
 

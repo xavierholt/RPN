@@ -20,7 +20,7 @@
 
 namespace RPN
 {
-	BracketNode::BracketNode(char opener, char closer): mCloser(closer), mOpener(opener)
+	BracketNode::BracketNode(char opener, char closer): Node(), mCloser(closer), mOpener(opener)
 	{
 		//Nothing else to do...
 	}

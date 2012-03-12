@@ -27,6 +27,7 @@
 namespace RPN
 {
 	OperatorNode::OperatorNode(int precedence, Associativity associativity, int arguments):
+		Node(),
 		mArguments(arguments),
 		mAssociativity(associativity),
 		mPrecedence(precedence)

@@ -21,7 +21,7 @@
 
 namespace RPN
 {
-	ExpressionNode::ExpressionNode(const Expression& expression): mExpression(expression)
+	ExpressionNode::ExpressionNode(const Expression& expression): ValueNode(), mExpression(expression)
 	{
 		//Nothing else to do...
 	}

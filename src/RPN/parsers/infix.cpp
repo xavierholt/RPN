@@ -28,6 +28,11 @@
 
 namespace RPN
 {
+	InfixParser::InfixParser(const Context& context): Parser(context)
+	{
+		//Nothing else to do...
+	}
+	
 	InfixParser::InfixParser(const std::string& string, const Context& context): Parser(context)
 	{
 		parse(string);
@@ -38,7 +43,7 @@ namespace RPN
 		return (mStack.size() > 0);
 	}
 	
-	void InfixParser::parse(const std::string& string)
+	void InfixParser::parseInternal(const std::string& string)
 	{
 		reset();
 		std::string::const_iterator itr = string.begin();

@@ -32,7 +32,6 @@ namespace RPN
 		VariableNode(const double* variable);
 		
 		virtual double evaluate(Evaluator& evaluator) const;
-		virtual bool   isVolatile() const;
 	};
 }
 
