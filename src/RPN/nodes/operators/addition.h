@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for addition.
+ */
 	class AdditionNode : public OperatorNode
 	{
 	public:

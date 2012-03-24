@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic secants.
+ */
 	class HyperbolicSecantNode : public FunctionNode
 	{
 	public:

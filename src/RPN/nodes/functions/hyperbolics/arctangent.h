@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic arc tangents.
+ */
 	class HyperbolicArcTangentNode : public FunctionNode
 	{
 	public:

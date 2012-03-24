@@ -24,11 +24,19 @@
 
 namespace RPN
 {
-	ExponentiationNode::ExponentiationNode(): OperatorNode(OperatorNode::EXPONENTIATION, OperatorNode::RIGHT)
+/**
+ * Constructor.
+ */
+	ExponentiationNode::ExponentiationNode(): OperatorNode(OperatorNode::EXPONENTIATION, true)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the first raised to the power of the second.
+ * @param evaluator The current evaluation.
+ * @return The first popped value raised to the power of the second.
+ */
 	double ExponentiationNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

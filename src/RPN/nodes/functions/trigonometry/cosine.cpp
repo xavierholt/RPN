@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	CosineNode::CosineNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its cosine.
+ * @param evaluator The current evaluation.
+ * @return The cosine of the popped value.
+ */
 	double CosineNode::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

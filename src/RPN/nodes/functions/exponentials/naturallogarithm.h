@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing natural (base \p e) logarithms.
+ */
 	class NaturalLogarithmNode : public FunctionNode
 	{
 	public:

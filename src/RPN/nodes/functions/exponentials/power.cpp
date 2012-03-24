@@ -24,17 +24,23 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	PowerNode::PowerNode(): FunctionNode(2)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the first raised to the power of the second.
+ * @param evaluator The current evaluation.
+ * @return The first popped value raised to the power of the second popped value.
+ */
 	double PowerNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg2 = evaluator.back();
-		evaluator.pop_back();
-		double arg1 = evaluator.back();
-		evaluator.pop_back();
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
 		return pow(arg1, arg2);
 	}
 }

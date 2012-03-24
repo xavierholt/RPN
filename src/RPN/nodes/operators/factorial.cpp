@@ -25,6 +25,9 @@
 
 namespace RPN
 {
+/**
+ * Values needed by the gamma() function to compute Lanczos approximations.
+ */
 	const double FactorialNode::cHelper[9] = {
 		0.99999999999980993,
 		676.5203681218851,
@@ -37,17 +40,39 @@ namespace RPN
 		1.5056327351493116e-7
 	};
 	
-	FactorialNode::FactorialNode(): OperatorNode(OperatorNode::FACTORIAL, OperatorNode::LEFT, 1)
+/**
+ * Constructor.
+ */
+	FactorialNode::FactorialNode(): OperatorNode(OperatorNode::FACTORIAL, false, false)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its factorial.
+ * @param evaluator The current evaluation.
+ * @return The factorial of the popped node.
+ *
+ * This node uses the gamma function to extend the factorial function over all
+ * the real numbers.
+ * @see https://en.wikipedia.org/wiki/Gamma_function
+ */
 	double FactorialNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();
 		return gamma(arg + 1.0);
 	}
 	
+/**
+ * Returns the gamma function of the given value.
+ * @param z Any real number.
+ * @return The gamma function of \p z.
+ *
+ * This function uses Lanczos approximation to return an easily-computable
+ * approximate value.  It is based on the example code from the linked
+ * Wikipedia page, which "typically gives 15 correct decimal places."
+ * @see https://en.wikipedia.org/wiki/Lanczos_approximation
+ */
 	double FactorialNode::gamma(double z)
 	{
 		// Lanczos Approximation of the Gamma Function

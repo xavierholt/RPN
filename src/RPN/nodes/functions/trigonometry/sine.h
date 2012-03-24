@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating sines.
+ */
 	class SineNode : public FunctionNode
 	{
 	public:

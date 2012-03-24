@@ -23,10 +23,13 @@
 
 namespace RPN
 {
+/**
+ * Stores a constant.
+ */
 	class ConstantNode : public ValueNode
 	{
 	protected:
-		double mValue;
+		double mValue; ///< The constant.
 		
 	public:
 		ConstantNode(double value);

@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	CosecantNode::CosecantNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its cosecant.
+ * @param evaluator The current evaluation.
+ * @return The cosecant of the popped value.
+ */
 	double CosecantNode::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

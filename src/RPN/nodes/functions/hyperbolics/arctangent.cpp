@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	HyperbolicArcTangentNode::HyperbolicArcTangentNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its hyperbolic arc tangent.
+ * @param evaluator The current evaluation.
+ * @return The hyperbolic arc tangent of the popped node.
+ */
 	double HyperbolicArcTangentNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

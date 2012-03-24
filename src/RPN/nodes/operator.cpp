@@ -17,6 +17,7 @@
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 #ifndef RPN_LIBHEADER
+	#include <iostream>
 	#include <sstream>
 #endif
 
@@ -26,37 +27,44 @@
 
 namespace RPN
 {
-	OperatorNode::OperatorNode(int precedence, Associativity associativity, int arguments):
+/**
+ * Constructor.
+ * @param precedence The precedence of this operator.
+ * @param right Whether or not this is a right-associative operator.  Defaults to false.
+ * @param binary Whether or not this is a binary operator (requiring two operands).  Defaults to true.
+ */
+	OperatorNode::OperatorNode(int precedence, bool right, bool binary):
 		Node(),
-		mArguments(arguments),
-		mAssociativity(associativity),
-		mPrecedence(precedence)
+		mPrecedence(precedence),
+		mIsRightAssociative(right),
+		mIsBinary(binary)
 	{
-		if((unsigned int) mArguments > 2)
-		{
-			std::ostringstream mess;
-			mess << "Invalid argument count: Expected 1 or 2; got " << mArguments;
-			throw Exception(mess.str());
-		}
+		//Nothing else to do...
 	}
 	
+/**
+ * Gets the number of arguments consumed by this operator.
+ * @return The number of arguments.
+ */
 	int OperatorNode::arguments() const
 	{
-		return mArguments;
+		return mIsBinary + 1;
 	}
 	
-	int OperatorNode::associativity() const
-	{
-		return mAssociativity;
-	}
-	
+/**
+ * Gets the description of this node.
+ * @return An or'd combination of node flags.
+ */
 	Node::Flags OperatorNode::flags() const
 	{
 		unsigned int ret = Node::OPERATOR | Node::ALLFIX;
 		
-		if(mArguments == 1 && isRightAssociative())
+		if(!mIsBinary)
 		{
-			ret |= Node::PRESENTS_OP | Node::SUCCEEDS_OP;
+			if(isRightAssociative())
+			{
+				ret |= Node::PRESENTS_OP | Node::SUCCEEDS_OP;
+			}
 		}
 		else
 		{
@@ -66,38 +74,64 @@ namespace RPN
 		return Node::Flags(ret);
 	}
 	
+/**
+ * Parses this node out of an infix expression.
+ * @param parser The parser.
+ * @param token The token representing this node.
+ *
+ * If this operator is \em not a unary right-associative operator:  While there
+ * is an operator node of higher precedence (or a left-associative operator
+ * node of equal precedence) on top of the shunt stack, pop it off and push it
+ * onto the expression stack.
+ *
+ * Push this operator onto the shunt stack.
+ */
 	void OperatorNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
-		int comp = precedence() - isRightAssociative();
-		
-		while(parser.hasStack())
+		if(mIsBinary || isLeftAssociative())
 		{
-			Parser::Token token = parser.top();
-			const Node* node = token.node;
-			
-			if(node->isOperator() && ((const OperatorNode*)node)->precedence() >= comp)
+			int comp = precedence() + isRightAssociative();
+	
+			while(parser.hasStack())
 			{
-				parser.shunt();
-			}
-			else
-			{
-				break;
+				const Node* node = parser.top().node;
+				if(node->isOperator() && ((const OperatorNode*)node)->precedence() >= comp)
+				{
+				//	std::cout << "Shunting: '" << parser.top().name << "' (" << ((const OperatorNode*)node)->precedence() << ") > '" << token.name << "' (" << comp << ")\n";
+					parser.shunt();
+				}
+				else
+				{
+					break;
+				}
 			}
 		}
 		
 		parser.push_to_stack(token);
 	}
 	
+/**
+ * Checks if this operator is left-associative.
+ * @return True if this operator is left-associative; false otherwise.
+ */
 	bool OperatorNode::isLeftAssociative() const
 	{
-		return (mAssociativity != RIGHT);
+		return (!mIsRightAssociative);
 	}
 	
+/**
+ * Checks if this operator is right-associative.
+ * @return True if this operator is right-associative; false otherwise.
+ */
 	bool OperatorNode::isRightAssociative() const
 	{
-		return (mAssociativity != LEFT);
+		return (mIsRightAssociative);
 	}
 	
+/**
+ * Gets the precedence of this operator.
+ * @return The precedence.
+ */
 	int OperatorNode::precedence() const
 	{
 		return mPrecedence;

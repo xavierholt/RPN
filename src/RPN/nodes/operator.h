@@ -23,46 +23,45 @@
 
 namespace RPN
 {
-	class Translator;
-	
+/**
+ * Base class for operator nodes.
+ *
+ * 
+ */
 	class OperatorNode : public Node
 	{
 	public:
-		enum Associativity
-		{
-			LEFT,
-			RIGHT
-		};
-		
+/**
+ * Operator precedence (addition < multiplication < exponentiation).
+ */
 		enum Precedence
 		{
-			ADDITION = 100,
-			SUBTRACTION = ADDITION,
+			ADDITION = 100,            ///< Addition
+			SUBTRACTION = ADDITION,    ///< Subtraction
 			
-			MULTIPLICATION = 200,
-			DIVISION = MULTIPLICATION,
-			MODULO = MULTIPLICATION,
+			MULTIPLICATION = 200,      ///< Multiplication
+			DIVISION = MULTIPLICATION, ///< Division
+			MODULO = MULTIPLICATION,   ///< Modulo
 			
-			NEGATION = 300,
+			NEGATION = 300,            ///< Negation
 			
-			EXPONENTIATION = 400,
+			EXPONENTIATION = 400,      ///< Exponentiation
 			
-			FACTORIAL = 500
+			FACTORIAL = 500            ///< Factorial
 		};
 		
 	public:
-		int mArguments;
-		int mAssociativity;
-		int mPrecedence;
+		int mPrecedence;          ///< The precedence of this operator in order of operations (addition < multiplication < exponentiation).
+		bool mIsRightAssociative; ///< Whether or not this is a right-associative operator.
+		bool mIsBinary;           ///< Whether or not this is a binary operator.
 		
 	public:
-		OperatorNode(int precedence, Associativity associativity = LEFT, int arguments = 2);
+		OperatorNode(int precedence, bool right = false, bool binary = true);
 		
 		virtual int   arguments() const;
 		virtual Flags flags() const;
 		virtual void  infixParse(InfixParser& parser, Parser::Token& token) const;
 		
-		int  associativity() const;
 		bool isLeftAssociative() const;
 		bool isRightAssociative() const;
 		int  precedence() const;

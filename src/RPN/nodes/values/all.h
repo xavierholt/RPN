@@ -16,6 +16,6 @@
    You should have received a copy of the GNU General Public License along
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
+#include "argument.h"
 #include "constant.h"
-#include "expression.h"
 #include "variable.h"

@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic cosecants.
+ */
 	class HyperbolicCosecantNode : public FunctionNode
 	{
 	public:

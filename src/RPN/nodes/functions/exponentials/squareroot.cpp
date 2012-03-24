@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	SquareRootNode::SquareRootNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its square root.
+ * @param evaluator The current evaluation.
+ * @return Thesquare root of the popped value.
+ */
 	double SquareRootNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

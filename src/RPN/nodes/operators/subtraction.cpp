@@ -20,11 +20,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	SubtractionNode::SubtractionNode(): OperatorNode(OperatorNode::SUBTRACTION)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the first minus the second.
+ * @param evaluator The current evaluation.
+ * @return The first popped value minus the second.
+ */
 	double SubtractionNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

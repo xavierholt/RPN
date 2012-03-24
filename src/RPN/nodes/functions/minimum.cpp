@@ -20,11 +20,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	MinimumNode::MinimumNode(): FunctionNode(2)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the lesser of the two.
+ * @param evaluator The current evaluation.
+ * @return The lesser of the popped nodes.
+ */
 	double MinimumNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

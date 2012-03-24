@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for multiplication.
+ */
 	class MultiplicationNode : public OperatorNode
 	{
 	public:

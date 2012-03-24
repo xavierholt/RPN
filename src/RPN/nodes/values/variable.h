@@ -23,10 +23,13 @@
 
 namespace RPN
 {
+/**
+ * Stores a pointer to a value so it can be changed programatically between evaluations.
+ */
 	class VariableNode : public ValueNode
 	{
 	protected:
-		const double* mVariable;
+		const double* mVariable; ///< A reference to a variable.
 		
 	public:
 		VariableNode(const double* variable);

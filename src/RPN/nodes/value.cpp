@@ -21,21 +21,37 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ValueNode::ValueNode(): Node()
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * @copydoc Node::arguments()
+ * 
+ * Value nodes don't expect any arguments; this function always returns zero.
+ */
 	int ValueNode::arguments() const
 	{
 		return 0;
 	}
 	
+/**
+ * @copydoc Node::flags()
+ */
 	Node::Flags ValueNode::flags() const
 	{
 		return Node::Flags(Node::VALUE | Node::VOLATILE | Node::SUCCEEDS_OP | Node::ALLFIX);
 	}
 	
+/**
+ * @copydoc Node::infixParse()
+ *
+ * Push all values straight to the expression stack.
+ */
 	void ValueNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		parser.push_to_expression(token);

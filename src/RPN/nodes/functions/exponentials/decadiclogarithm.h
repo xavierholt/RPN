@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing decadic (base 10) logarithms.
+ */
 	class DecadicLogarithmNode : public FunctionNode
 	{
 	public:

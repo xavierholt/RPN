@@ -22,6 +22,13 @@
 
 namespace RPN
 {
+/**
+ * Checks if a given string is a valid name for a node.
+ * @param name The name to check.
+ * @return Whether or not \p name was valid.
+ * Use this function to make sure that user-generated names can be recognized
+ * by the parser.
+ */
 	bool isValidName(const std::string& name)
 	{
 		std::string::const_iterator i = name.begin();

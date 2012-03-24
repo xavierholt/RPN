@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * Base class for nodes that store values.
+ */
 	class ValueNode : public Node
 	{
 	public:

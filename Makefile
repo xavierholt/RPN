@@ -15,12 +15,12 @@ build: force
 
 release: release-setup build
 release-setup: force
-	$(eval export CXXFLAGS := -Wall -Wextra -Werror -ansi -O3 -fPIC)
+	$(eval export CXXFLAGS := -Wall -Wextra -Werror -O3 -fPIC)
 	$(eval export BUILD := release)
 
 debug: debug-setup build
 debug-setup: force
-	$(eval export CXXFLAGS := -Wall -Wextra -Werror -ansi -O0 -fPIC -g)
+	$(eval export CXXFLAGS := -Wall -Wextra -Werror -O0 -fPIC -g)
 	$(eval export BUILD := debug)
 
 
@@ -44,5 +44,6 @@ chks: force
 
 clean:
 	rm -Rf build
+	rm -Rf dep
 force:
 	true

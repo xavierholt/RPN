@@ -20,11 +20,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	AdditionNode::AdditionNode(): OperatorNode(OperatorNode::ADDITION)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns their sum.
+ * @param evaluator The current evaluation.
+ * @return The sum of the popped values.
+ */
 	double AdditionNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

@@ -26,16 +26,41 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ * @param opener The bracket character that opens this type of bracket.  This
+ * character is not used during actual parsing; it is only used when reporting
+ * parse errors.
+ * @param closer The bracket character that closes this type of bracket.  This
+ * character is not used during actual parsing; it is only used when reporting
+ * parse errors.
+ */
 	RightBracketNode::RightBracketNode(char opener, char closer): BracketNode(opener, closer)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Gets a description of this node.
+ * @return An or'd combination of node descriptions.
+ */
 	Node::Flags RightBracketNode::flags() const
 	{
 		return Node::Flags(Node::BRACKET | Node::INFIX);
 	}
 	
+/**
+ * Parses this node out of an infix expression.
+ * @param parser The parser.
+ * @param token The token representing this node.
+ *
+ * When a right bracket is encountered, pop tokens off the "shunt" stack until
+ * a left bracket is found.  If the bottom of the shunt stack is reached, throw
+ * a bracket mismatch error.  If the wrong type of left bracket is found, throw
+ * a bracket mismatch error.  If a matching left bracket is found, pop it off
+ * the shunt stack.  Then, if there is a function node on top of the shunt
+ * stack, pop it off and push it onto the expression stack.
+ */
 	void RightBracketNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		(void)(token); //Unused

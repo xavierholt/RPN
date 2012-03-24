@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating arc cotangents.
+ */
 	class ArcCotangentNode : public FunctionNode
 	{
 	public:

@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ArcTangent2Node::ArcTangent2Node(): FunctionNode(2)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns their arc tangent.
+ * @param evaluator The current evaluation.
+ * @return The arc tangent of the popped values.
+ */
 	double ArcTangent2Node::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

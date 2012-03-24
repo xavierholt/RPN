@@ -20,11 +20,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	MaximumNode::MaximumNode(): FunctionNode(2)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the greater of the two.
+ * @param evaluator The current evaluation.
+ * @return The greater of the popped nodes.
+ */
 	double MaximumNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

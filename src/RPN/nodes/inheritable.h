@@ -21,4 +21,5 @@
 #include "operator.h"
 #include "value.h"
 
+#include "expression.h"
 #include "values/all.h"

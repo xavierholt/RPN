@@ -23,10 +23,13 @@
 
 namespace RPN
 {
+/**
+ * A parser for Postfix Notation.
+ */
 	class PostfixParser : public Parser
 	{
 	protected:
-		virtual void parseInternal(const std::string& string);
+		virtual void parseInternal();
 		
 	public:
 		PostfixParser(const Context& context);

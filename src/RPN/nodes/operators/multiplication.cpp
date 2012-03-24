@@ -20,11 +20,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	MultiplicationNode::MultiplicationNode(): OperatorNode(OperatorNode::MULTIPLICATION)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns their product.
+ * @param evaluator The current evaluation.
+ * @return The product of the popped values.
+ */
 	double MultiplicationNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

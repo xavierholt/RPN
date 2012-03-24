@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	SineNode::SineNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its sine.
+ * @param evaluator The current evaluation.
+ * @return The sine of the popped value.
+ */
 	double SineNode::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

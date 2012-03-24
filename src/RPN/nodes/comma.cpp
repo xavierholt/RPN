@@ -21,16 +21,31 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	CommaNode::CommaNode(): Node()
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Gets the description of this node.
+ * @return An or'd combination of node flags.
+ */
 	Node::Flags CommaNode::flags() const
 	{
-		return Node::Flags(Node::PRESENTS_OP | Node::SUCCEEDS_OP | Node::INFIX);
+		return Node::Flags(Node::PRESENTS_OP | Node::INFIX);
 	}
 	
+/**
+ * Parses this node out of an infix expression.
+ * @param parser The parser.
+ * @param token The token representing this node (unused).
+ *
+ * Pops nodes from the "shunt" stack to the expression until a left bracket is
+ * encountered.
+ */
 	void CommaNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		(void)(token); //Unused

@@ -23,6 +23,11 @@
 
 namespace RPN
 {
+/**
+ * A node to represent a function argument separator.
+ * This node will never occur in an RPN::Expression; it is only used when
+ * parsing infix expressions.
+ */
 	class CommaNode : public Node
 	{
 	public:

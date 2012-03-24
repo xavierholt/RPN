@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	SecantNode::SecantNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its secant.
+ * @param evaluator The current evaluation.
+ * @return The secant of the popped value.
+ */
 	double SecantNode::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

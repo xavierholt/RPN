@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating secants.
+ */
 	class SecantNode : public FunctionNode
 	{
 	public:

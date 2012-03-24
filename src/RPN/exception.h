@@ -25,6 +25,11 @@
 
 namespace RPN
 {
+/**
+ * An exception class.
+ * Mostly just useful for distinguishing exceptions thrown by RPN from
+ * exceptions thrown by other programs.
+ */
 	class Exception : public std::runtime_error
 	{
 	public:

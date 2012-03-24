@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for exponentiation.
+ */
 	class ExponentiationNode : public OperatorNode
 	{
 	public:

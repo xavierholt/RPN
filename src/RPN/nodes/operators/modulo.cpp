@@ -24,11 +24,21 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ModuloNode::ModuloNode(): OperatorNode(OperatorNode::MODULO)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the remainder of the first divided by the second.
+ * @param evaluator The current evaluation.
+ * @return The remainder of the first popped value divided by the second.
+ *
+ * The sign of the result matches the sign of the first argument.
+ */
 	double ModuloNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

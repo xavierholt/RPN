@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating cotangents.
+ */
 	class CotangentNode : public FunctionNode
 	{
 	public:

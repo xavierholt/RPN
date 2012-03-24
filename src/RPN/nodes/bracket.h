@@ -23,11 +23,14 @@
 
 namespace RPN
 {
+/**
+ * Base class for bracket nodes.
+ */
 	class BracketNode : public Node
 	{
 	protected:
-		char mCloser;
-		char mOpener;
+		char mCloser; ///< A right bracket character.
+		char mOpener; ///< A left bracket character.
 		
 	public:
 		BracketNode(char opener, char closer);

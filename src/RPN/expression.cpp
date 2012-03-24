@@ -28,35 +28,62 @@
 
 namespace RPN
 {
-	typedef std::vector<const Node*>::iterator EItr;
-	typedef std::vector<const Node*>::const_iterator ECItr;
-	
+/**
+ * Default constructor.
+ * This constructor doesn't actually do anything; use it if you want to create
+ * an Expression, but don't have anything to fill it with yet.  Call parse()
+ * once you do to load something into the Expression and get it ready to
+ * evaluate().
+ */
 	Expression::Expression()
 	{
 		//Nothing to do...
 	}
 	
-	Expression::Expression(const std::string& string, const RPN::Context& context, Format format)
+/**
+ * Convenience constructor.
+ * @param string A string to parse into the newly created expression.
+ * @param context The Context in which to do the parsing.
+ * @param arguments The number of arguments expected by this expression (defaults to zero).
+ * @param format The "fixity" of the input string (defaults to INFIX).
+ *
+ * This constructor creates an Expression and parses a string into it in one
+ * function call.  As long as parsing was successful, you can evaluate() the
+ * Expression immediately after using this constructor.
+ */
+	Expression::Expression(const std::string& string, const RPN::Context& context, int arguments, Format format)
 	{
-		parse(string, context, format);
+		parse(string, context, arguments, format);
 	}
 	
+/**
+ * Destructor.
+ * Dereferences all the Nodes used in this expression.
+ */
 	Expression::~Expression()
 	{
 		clear();
 	}
 	
-	Evaluator* Expression::buildEvaluator() const
+/**
+ * Gets the number or arguments this expression expects.
+ * @return The number of expected arguments.
+ */
+	int Expression::arguments() const
 	{
-		Evaluator* ret = new Evaluator();
-		ret->reserve(mMaxAvailable);
-		return ret;
+		return mArguments;
 	}
 	
+/**
+ * Clears this expression.
+ * Dereferences and removes all Nodes, and resets caching information.
+ *
+ * You probably won't have any need to call this function yourself; it's used
+ * internally to prepare an expression for a new parsing.
+ */
 	void Expression::clear()
 	{
-		EItr end = mStack.end();
-		for(EItr i = mStack.begin(); i != end; ++i)
+		for(std::vector<const Node*>::const_iterator i = mStack.begin(); i != mStack.end(); ++i)
 		{
 			(*i)->dereference();
 		}
@@ -66,6 +93,19 @@ namespace RPN
 		mIsVolatile = false;
 	}
 	
+/**
+ * Evaluates this expression.
+ * @return The result of evaluation.
+ *
+ * A convenience wrapper around the evaluate function that does all the work.
+ * Creates an empty Evaluator internally, uses it, and discards it.
+ *
+ * [evaluate disclaimer]
+ * Programs that perform lots of evaluations may want to create an Evaluator
+ * per thread and pass that to evaluate(Evaluator&).  This avoids the memory
+ * management overhead involved in creating and destroying std::vectors.
+ * [evaluate disclaimer]
+ */
 	double Expression::evaluate() const
 	{
 		if(mIsCached)
@@ -74,6 +114,53 @@ namespace RPN
 		}
 		
 		Evaluator evaluator;
+		return evaluate(evaluator);
+	}
+	
+/**
+ * Evaluates this expression.
+ * @param arg1 An argument, to be passed to this expression.
+ * @return The result of evaluation.
+ *
+ * A convenience wrapper around the evaluate function that does all the work.
+ * Creates an Evaluator internally, pushes on any arguments, uses it, and
+ * discards it.
+ *
+ * @snippet expression.cpp evaluate disclaimer
+ */
+	double Expression::evaluate(double arg1) const
+	{
+		Evaluator evaluator;
+		evaluator.push(arg1);
+		return evaluate(evaluator);
+	}
+	
+/**
+ * Evaluates this expression.
+ * @param arg1 An argument, to be passed to this expression.
+ * @param arg2 Another argument to be passed to this expression.
+ * @return The result of evaluation.
+ *
+ * A convenience wrapper around the evaluate function that does all the work.
+ * Creates an Evaluator internally, pushes on any arguments, uses it, and
+ * discards it.
+ *
+ * @snippet expression.cpp evaluate disclaimer
+ */
+	double Expression::evaluate(double arg1, double arg2) const
+	{
+		Evaluator evaluator;
+		evaluator.push(arg1);
+		evaluator.push(arg2);
+		return evaluate(evaluator);
+	}
+	
+	double Expression::evaluate(double arg1, double arg2, double arg3) const
+	{
+		Evaluator evaluator;
+		evaluator.push(arg1);
+		evaluator.push(arg2);
+		evaluator.push(arg3);
 		return evaluate(evaluator);
 	}
 	
@@ -90,15 +177,16 @@ namespace RPN
 			return mResult;
 		}
 		
-		evaluator.reserve(evaluator.size() + mMaxAvailable);
+		evaluator.bind();
+		evaluator.reserve(mMaxAvailable);
 		
-		ECItr end = mStack.end();
-		for(ECItr i = mStack.begin(); i != end; ++i)
+		for(std::vector<const Node*>::const_iterator i = mStack.begin(); i != mStack.end(); ++i)
 		{
-			evaluator.push_back((*i)->evaluate(evaluator));
+			evaluator.push((*i)->evaluate(evaluator));
 		}
 		
 		double ret = evaluator.pop();
+		evaluator.release();
 		
 		if(!mIsVolatile)
 		{
@@ -106,11 +194,18 @@ namespace RPN
 			mIsCached = true;
 		}
 		
+		for(int i = mArguments; i > 0; --i)
+		{
+			evaluator.pop();
+		}
+		
 		return ret;
 	}
 	
-	void Expression::parse(const std::string& string, const Context& context, Format format)
+	void Expression::parse(const std::string& string, const Context& context, int arguments, Format format)
 	{
+		//NOTE:  This has to be an if/else block - g++ complains about "jump to
+		//       case label crosses initialization of Blah" if we use a switch.
 		if(format == INFIX)
 		{
 			InfixParser parser(string, context);
@@ -127,6 +222,8 @@ namespace RPN
 			mess << "Unknown format: " << format;
 			throw Exception(mess.str());
 		}
+		
+		mArguments = arguments;
 	}
 	
 	Expression& Expression::operator <<(const Node* node)

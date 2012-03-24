@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing powers.
+ */
 	class PowerNode : public FunctionNode
 	{
 	public:

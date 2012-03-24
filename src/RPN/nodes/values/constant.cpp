@@ -20,16 +20,29 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ * @param value The constant to store.
+ */
 	ConstantNode::ConstantNode(double value): ValueNode(), mValue(value)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Gets a description of this node.
+ * @return An or'd combination of node descriptors.
+ */
 	Node::Flags ConstantNode::flags() const
 	{
 		return Node::Flags(Node::VALUE | Node::SUCCEEDS_OP | Node::ALLFIX);
 	}
 	
+/**
+ * Gets the stored constant.
+ * @param evaluator The current evaluation (unused).
+ * @return The stored constant.
+ */
 	double ConstantNode::evaluate(Evaluator& evaluator) const
 	{
 		(void)(evaluator); //Unused

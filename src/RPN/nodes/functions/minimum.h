@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing minimums.
+ */
 	class MinimumNode : public FunctionNode
 	{
 	public:

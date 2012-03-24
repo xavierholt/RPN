@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	HyperbolicArcCosineNode::HyperbolicArcCosineNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its hyperbolic arc cosine.
+ * @param evaluator The current evaluation.
+ * @return The hyperbolic arc cosine of the popped node.
+ */
 	double HyperbolicArcCosineNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

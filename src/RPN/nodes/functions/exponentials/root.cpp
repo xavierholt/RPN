@@ -24,17 +24,23 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	RootNode::RootNode(): FunctionNode(2)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the first raised to the power of the reciprocal of the second.
+ * @param evaluator The current evaluation.
+ * @return The second value'th root of the first popped value.
+ */
 	double RootNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg2 = evaluator.back();
-		evaluator.pop_back();
-		double arg1 = evaluator.back();
-		evaluator.pop_back();
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
 		return pow(arg1, 1.0 / arg2);
 	}
 }

@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing arbitrary roots.
+ */
 	class RootNode : public FunctionNode
 	{
 	public:

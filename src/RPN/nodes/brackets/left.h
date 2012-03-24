@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * An opening bracket.
+ */
 	class LeftBracketNode : public BracketNode
 	{
 	public:

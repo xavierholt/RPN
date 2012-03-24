@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating arc secants.
+ */
 	class ArcSecantNode : public FunctionNode
 	{
 	public:

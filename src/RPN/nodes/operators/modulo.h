@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for modulo.
+ */
 	class ModuloNode : public OperatorNode
 	{
 	public:

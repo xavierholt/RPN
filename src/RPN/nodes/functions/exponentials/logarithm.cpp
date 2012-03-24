@@ -24,17 +24,23 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	LogarithmNode::LogarithmNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the logarithm of the first in the base of the second.
+ * @param evaluator The current evaluation.
+ * @return The logarithm.
+ */
 	double LogarithmNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg2 = evaluator.back();
-		evaluator.pop_back();
-		double arg1 = evaluator.back();
-		evaluator.pop_back();
+		double arg2 = evaluator.pop();
+		double arg1 = evaluator.pop();
 		return log(arg1) / log(arg2);
 	}
 }

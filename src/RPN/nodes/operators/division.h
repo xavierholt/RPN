@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for division.
+ */
 	class DivisionNode : public OperatorNode
 	{
 	public:

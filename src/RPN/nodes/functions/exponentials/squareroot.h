@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing square roots.
+ */
 	class SquareRootNode : public FunctionNode
 	{
 	public:

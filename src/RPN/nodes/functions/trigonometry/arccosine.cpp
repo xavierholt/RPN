@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ArcCosineNode::ArcCosineNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its arc cosine.
+ * @param evaluator The current evaluation.
+ * @return The arc cosine of the popped value.
+ */
 	double ArcCosineNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

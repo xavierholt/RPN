@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	TangentNode::TangentNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its tangent.
+ * @param evaluator The current evaluation.
+ * @return The tangent of the popped value.
+ */
 	double TangentNode::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

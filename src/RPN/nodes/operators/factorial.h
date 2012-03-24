@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for factorials.
+ */
 	class FactorialNode : public OperatorNode
 	{
 	protected:

@@ -20,11 +20,19 @@
 
 namespace RPN
 {
-	NegationNode::NegationNode(): OperatorNode(OperatorNode::NEGATION, OperatorNode::RIGHT, 1)
+/**
+ * Constructor.
+ */
+	NegationNode::NegationNode(): OperatorNode(OperatorNode::NEGATION, true, false)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its additive inverse.
+ * @param evaluator The current evaluation.
+ * @return The inverse of the popped node.
+ */
 	double NegationNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

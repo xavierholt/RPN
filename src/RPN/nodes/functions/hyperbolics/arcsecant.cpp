@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	HyperbolicArcSecantNode::HyperbolicArcSecantNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its hyperbolic arc secant.
+ * @param evaluator The current evaluation.
+ * @return The hyperbolic arc secant of the popped node.
+ */
 	double HyperbolicArcSecantNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

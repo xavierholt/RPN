@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating arc cosines.
+ */
 	class ArcCosineNode : public FunctionNode
 	{
 	public:

@@ -20,21 +20,37 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	BracketNode::BracketNode(char opener, char closer): Node(), mCloser(closer), mOpener(opener)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Gets the closing bracket character for this bracket type.
+ * @return The right bracket character.
+ */
 	char BracketNode::closer() const
 	{
 		return mCloser;
 	}
 	
+/**
+ * Gets the opening bracket character for this bracket type.
+ * @return The left bracket character.
+ */
 	char BracketNode::opener() const
 	{
 		return mOpener;
 	}
 	
+/**
+ * Checks if another bracket node has the same closing character as this one.
+ * @param other A pointer to the node to compare this node against.
+ * @return True if the closing characters match; false otherwise.
+ */
 	bool BracketNode::isClosedBy(const BracketNode* other) const
 	{
 		return (other->mCloser == mCloser);

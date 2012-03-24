@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating cosecants.
+ */
 	class CosecantNode : public FunctionNode
 	{
 	public:

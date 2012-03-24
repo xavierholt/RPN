@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing binary (base 2) logarithms.
+ */
 	class BinaryLogarithmNode : public FunctionNode
 	{
 	public:

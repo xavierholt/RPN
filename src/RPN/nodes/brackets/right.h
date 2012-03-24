@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A closing bracket.
+ */
 	class RightBracketNode : public BracketNode
 	{
 	public:

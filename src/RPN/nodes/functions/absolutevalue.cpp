@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	AbsoluteValueNode::AbsoluteValueNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its absolute value.
+ * @param evaluator The current evaluation.
+ * @return The absolute value of the popped node.
+ */
 	double AbsoluteValueNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

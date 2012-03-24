@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic cotangents.
+ */
 	class HyperbolicCotangentNode : public FunctionNode
 	{
 	public:

@@ -17,6 +17,7 @@
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 #include "comma.h"
+#include "expression.h"
 
 #include "brackets/all.h"
 #include "functions/all.h"

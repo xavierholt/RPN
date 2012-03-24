@@ -20,11 +20,20 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ * @param variable The variable to reference.
+ */
 	VariableNode::VariableNode(const double* variable): ValueNode(), mVariable(variable)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Gets the value stored at \p mVariable.
+ * @param evaluator The current evaluation (unused).
+ * @return The referenced value.
+ */
 	double VariableNode::evaluate(Evaluator& evaluator) const
 	{
 		(void)(evaluator); //Unused

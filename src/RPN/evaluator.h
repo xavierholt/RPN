@@ -25,14 +25,87 @@
 
 namespace RPN
 {
-	class Evaluator : public std::vector<double>
+/**
+ * Contains data needed for the evaluation of an RPN::Expression.
+ * This class is a thin wrapper around two stacks: A value stack, where numbers
+ * are stored as they are evaluated, and a binding stack, which stores pointers
+ * to the top of the stack as of when each expression or sub-expression began
+ * evaluating.  This serves as a "base pointer," allowing the current
+ * expression access to its original arguments regardless of the height of the
+ * current size of the stack.
+ */
+	class Evaluator
 	{
+	protected:
+		std::vector<double> mStack;    ///< The value stack.
+		std::vector<int>    mBindings; ///< The binding stack.
+		
 	public:
+		double argument(int index)
+		{
+			return mStack[mBindings.back() + index];
+		}
+		
+/**
+ * Adds a new binding to the binding stack.
+ * This function is called just before an expression begins evaluating.
+ * @see release()
+ */
+		void bind()
+		{
+			mBindings.push_back(mStack.size());
+		}
+		
+/**
+ * Gets the number of values on the value stack.
+ * @return The number of values.
+ */
+		int count() const
+		{
+			return mStack.size();
+		}
+		
+/**
+ * Pops a value off the value stack and returns it.
+ * @return The popped value.
+ * @see push()
+ */
 		double pop()
 		{
-			double ret = back();
-			pop_back();
+			double ret = mStack.back();
+			mStack.pop_back();
 			return ret;
+		}
+		
+/**
+ * Pushes a value onto the value stack.
+ * @param value the value to be pushed.
+ * @see pop()
+ */
+		void push(double value)
+		{
+			mStack.push_back(value);
+		}
+		
+/**
+ * Pops the current binding off the binding stack.
+ * This function is called whenever an expression finishes evaluating.
+ * @see bind()
+ */
+		void release()
+		{
+			mBindings.pop_back();
+		}
+		
+/**
+ * Reserves additional space on top of the value stack.
+ * @param count The number of values to reserve space for.
+ * The reserved space is in addition to any space taken up by values already on
+ * the value stack.
+ */
+		void reserve(int count)
+		{
+			mStack.reserve(mStack.size() + count);
 		}
 	};
 }

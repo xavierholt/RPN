@@ -24,15 +24,22 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	DecadicLogarithmNode::DecadicLogarithmNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its decadic logarithm.
+ * @param evaluator The current evaluation.
+ * @return The decadic logarithm of the popped value.
+ */
 	double DecadicLogarithmNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return log10(arg);
 	}
 }

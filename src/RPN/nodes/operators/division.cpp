@@ -20,11 +20,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	DivisionNode::DivisionNode(): OperatorNode(OperatorNode::DIVISION)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns the first divided by the second.
+ * @param evaluator The current evaluation.
+ * @return The first popped value divided by the second.
+ */
 	double DivisionNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

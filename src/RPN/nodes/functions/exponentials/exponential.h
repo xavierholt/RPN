@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing exponentials.
+ */
 	class ExponentialNode : public FunctionNode
 	{
 	public:

@@ -24,15 +24,22 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ExponentialNode::ExponentialNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns \p e raised to that power.
+ * @param evaluator The current evaluation.
+ * @return \p e raised to the popped value.
+ */
 	double ExponentialNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return exp(arg);
 	}
 }

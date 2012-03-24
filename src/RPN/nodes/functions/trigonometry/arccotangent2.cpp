@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ArcCotangent2Node::ArcCotangent2Node(): FunctionNode(2)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops two values off the stack and returns their arc cotangent.
+ * @param evaluator The current evaluation.
+ * @return The arc cotangent of the popped values.
+ */
 	double ArcCotangent2Node::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg2 = evaluator.pop();

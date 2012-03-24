@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	HyperbolicCosecantNode::HyperbolicCosecantNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its hyperbolic cosecant.
+ * @param evaluator The current evaluation.
+ * @return The hyperbolic cosecant of the popped node.
+ */
 	double HyperbolicCosecantNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

@@ -31,14 +31,30 @@ namespace RPN
 	class Expression;
 	class Node;
 	
+/**
+ * The base class from which all parsers inherit.
+ * Reimplementations of this class must implement the parseInternal() function,
+ * which does the actual parsing. If they use any extra class members to help
+ * with parsing, they should reimplement the clear() function as well to make
+ * sure that all necessary data is cleared before restarting parsing.
+ *
+ * @note This class is not reentrant.  If you want to parse multiple
+ * expressions simultaneously, use multiple parsers.
+ */
 	class Parser
 	{
 	public:
+/**
+ * A token, as parsed from an input expression string.
+ * This class is used for temporary storage during parsing.  It stores both the
+ * RPN::Node and the input string that yielded it, allowing for more lucid
+ * error reporting.
+ */
 		class Token
 		{
 		public:
-			std::string name;
-			const Node* node;
+			std::string name; ///< The name of this token, as it appeared in the input.
+			const Node* node; ///< The RPN::Node associated with that name in the current context.
 			
 		public:
 			Token();
@@ -47,37 +63,54 @@ namespace RPN
 		};
 		
 	public:
+/**
+ * Token type flags.
+ * Or'd combinations of these flags are stored in the static arrays cInitial[]
+ * and cSubsequent[] to help parse input expressions into tokens.
+ */
 		enum TokenType
 		{
-			BLANK       = 0x01,
-			BRACKET     = 0x02,
-			NUMBER      = 0x04,
-			IDENTIFIER  = 0x08,
-			OPERATOR    = 0x10
+			BLANK       = 0x01, ///< This token is whitespace.  Ignore it.
+			BRACKET     = 0x02, ///< This token is an opening or closing bracket.
+			NUMBER      = 0x04, ///< This token is a numeric constant.
+			IDENTIFIER  = 0x08, ///< This token is the name of a function or variable.
+			OPERATOR    = 0x10  ///< This token is an operator (or a comma).
 		};
 		
 	public:
-		const static unsigned char cInitial[256];
-		const static unsigned char cSubsequent[256];
+		const static unsigned char cInitial[256];    ///< An or'd combination of TokenType flags. The valid characters for starting each token type.
+		const static unsigned char cSubsequent[256]; ///< An or'd combination of TokenType flags. The valid characters for continuing each token type.
 		
 	protected:
-		int                      mAvailable;
-		int                      mMaxAvailable;
-		const Context*           mContext;
-		std::vector<const Node*> mExpression;
+		int                         mAvailable;    ///< The number of values that would be present on the stack at this point as the expression is evaluated.
+		int                         mMaxAvailable; ///< The maximum number of values that accumulate on the stack during evaluation.
+		const Context*              mContext;      ///< The current context.
+		std::vector<const Node*>    mExpression;   ///< Storage space for the expression being parsed.
+		std::string                 mInputString;  ///< The input string.
+		std::string::const_iterator mIterator;     ///< An iterator to the current point of tokenization.
+		std::string::const_iterator mEndIterator;  ///< The "end" iterator for the input string.
 		
 	protected:
-		virtual void parseInternal(const std::string& string) = 0;
+		virtual void clear();
+		
+/**
+ * Performs the actual parsing.
+ * This function is a pure virtual hook - all reimplementations of RPN::Parser
+ * must implement this function.  When this function returns, an expression
+ * must be sitting on the expression stack (\p mExpression), ready for storage
+ * into an RPN::Expression.  If any parsing errors occur, this function should
+ * throw an RPN::Exception.
+ */
+		virtual void parseInternal() = 0;
 		
 	public:
 		Parser(const Context& context = Context::ROOT);
 		
 		void  checkResult();
-		Token next(std::string::const_iterator& itr, std::string::const_iterator& end);
+		Token next();
 		void  parse(const std::string& string);
 		void  parse(const std::string& string, const Context& context);
 		void  push_to_expression(Token& token);
-		void  reset();
 		void  store(Expression& expression);
 	};
 }

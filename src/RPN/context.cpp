@@ -24,15 +24,27 @@
 
 namespace RPN
 {
-	typedef ContextMap::iterator CItr;
-	typedef ContextMap::const_iterator CCItr;
-	
+/**
+ * Helper for initialize_root_context().
+ * @param map The std::map to insert \p node into.
+ * @param string The name by which \p node will be referenced.
+ * @param node The node to insert.
+ *
+ * Adds a reference counter to \p node and inserts it into the given
+ * context.
+ * @see initialize_root_context()
+ */
 	inline void initialize_node(ContextMap& map, const std::string& string, const Node* node)
 	{
 		node->reference();
 		map[string] = node;
 	}
 	
+/**
+ * Initializes the default root context (RPN::Context::ROOT).
+ * This function will be called automatically when RPN is loaded - there is no
+ * need to call it yourself.
+ */
 	ContextMap initialize_root_context()
 	{
 		ContextMap map;
@@ -106,42 +118,75 @@ namespace RPN
 		return map;
 	}
 	
+/**
+ * The default root context.
+ * This context is pre-populated with a fairly extensive list of functions and
+ * operators (and a handful of constants), allowing RPN to be used "out-of-the-
+ * box" for basic evaluation.
+ */
 	const Context Context::ROOT(initialize_root_context(), NULL);
 	
+/**
+ * Constructor.
+ * @param parent The parent context of this context.  Defaults to RPN::Context::ROOT.
+ */
 	Context::Context(const Context* parent): mParent(parent)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Convenience constructor.
+ * @param map A std::map of std::string s to RPN::Node s.
+ * @param parent The parent context of this context.  Defaults to RPN::Context::ROOT.
+ *
+ * Allows a context to be created from a std::map.
+ */
 	Context::Context(const ContextMap& map, const Context* parent): mHash(map), mParent(parent)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Destructor.
+ * Dereferences all the nodes in this context.
+ */
 	Context::~Context()
 	{
-		CItr end = mHash.end();
-		for(CItr i = mHash.begin(); i != end; ++i)
+		for(ContextMap::const_iterator i = mHash.begin(); i != mHash.end(); ++i)
 		{
 			(*i).second->dereference();
 		}
 	}
 	
-	void Context::insert(const std::string& string, const Node* node)
+/**
+ * Adds a node to this context.
+ * @param name The name by which this node will be referenced.
+ * @param node The node to insert.
+ *
+ * A reference counter will be added to \p node . If there is already a node
+ * listed under \p name in this context, it will be dereferenced and removed.
+ */
+	void Context::insert(const std::string& name, const Node* node)
 	{
-		remove(string);
+		remove(name);
 		node->reference();
-		mHash[string] = node;
+		mHash[name] = node;
 	}
 	
-	const Node* Context::lookup(const std::string& string) const
+/**
+ * Looks up a node by name.
+ * @param name The name of the node.
+ * @return A pointer to the node, or NULL if it could not be found in this context.
+ */
+	const Node* Context::lookup(const std::string& name) const
 	{
-		CCItr ref = mHash.find(string);
+		ContextMap::const_iterator ref = mHash.find(name);
 		if(ref == mHash.end())
 		{
 			if(mParent)
 			{
-				return mParent->lookup(string);
+				return mParent->lookup(name);
 			}
 			else
 			{
@@ -154,9 +199,16 @@ namespace RPN
 		}
 	}
 	
-	bool Context::remove(const std::string& string)
+/**
+ * Removes a node from this context.
+ * @param name The name of the node.
+ * @return True if a node going by \p name was found; false otherwise.
+ *
+ * If a node is found, it is dereferenced before being removed.
+ */
+	bool Context::remove(const std::string& name)
 	{
-		CItr ref = mHash.find(string);
+		ContextMap::iterator ref = mHash.find(name);
 		if(ref != mHash.end())
 		{
 			(*ref).second->dereference();

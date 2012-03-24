@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating arc sines.
+ */
 	class ArcSineNode : public FunctionNode
 	{
 	public:

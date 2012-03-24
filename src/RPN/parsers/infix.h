@@ -24,13 +24,19 @@
 
 namespace RPN
 {
+/**
+ * A parser for Infix Notation.
+ * Implements Dijkstra's "Shunting Yard" algorithm.
+ * @see https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+ */
 	class InfixParser : public Parser
 	{
 	protected:
-		std::vector<Token> mStack;
+		std::vector<Token> mStack; ///< The function/operator "shunt" stack.
 		
 	protected:
-		virtual void parseInternal(const std::string& string);
+		virtual void clear();
+		virtual void parseInternal();
 		
 	public:
 		InfixParser(const Context& context = Context::ROOT);

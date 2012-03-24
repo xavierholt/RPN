@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating arc cosecants.
+ */
 	class ArcCosecantNode : public FunctionNode
 	{
 	public:

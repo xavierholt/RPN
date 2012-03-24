@@ -16,22 +16,24 @@
    You should have received a copy of the GNU General Public License along
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-#ifndef RPN_NODES_VALUES_EXPRESSION_H
-#define RPN_NODES_VALUES_EXPRESSION_H
+#ifndef RPN_NODES_VALUES_ARGUMENT_H
+#define RPN_NODES_VALUES_ARGUMENT_H
 
 #include "../value.h"
 
 namespace RPN
 {
-	class Expression;
-	
-	class ExpressionNode : public ValueNode
+/**
+ * Retrieves an argument as it was passed to the current expression.
+ */
+	class ArgumentNode : public ValueNode
 	{
 	protected:
-		const Expression& mExpression;
+		int mOffset; ///< The offset of the argument relative to the base pointer.
 		
 	public:
-		ExpressionNode(const Expression& expression);
+		ArgumentNode(int offset);
+		ArgumentNode(int number, int total);
 		
 		virtual double evaluate(Evaluator& evaluator) const;
 	};

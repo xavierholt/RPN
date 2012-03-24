@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing absolute values.
+ */
 	class AbsoluteValueNode : public FunctionNode
 	{
 	public:

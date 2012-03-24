@@ -20,6 +20,10 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ * @param message A description of what caused this exception.
+ */
 	Exception::Exception(const std::string& message): std::runtime_error(message)
 	{
 		//Nothing else to do...

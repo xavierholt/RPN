@@ -16,19 +16,35 @@
    You should have received a copy of the GNU General Public License along
    with RPN.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-#include "../../expression.h"
-#include "expression.h"
+#ifndef RPN_NODES_EXPRESSION_H
+#define RPN_NODES_EXPRESSION_H
+
+#include "../node.h"
 
 namespace RPN
 {
-	ExpressionNode::ExpressionNode(const Expression& expression): ValueNode(), mExpression(expression)
-	{
-		//Nothing else to do...
-	}
+	class Expression;
 	
-	double ExpressionNode::evaluate(Evaluator& evaluator) const
+/**
+ * Stores a reference to an RPN::Expression.
+ *
+ * If the expression referenced expects arguments, this node behaves like a
+ * FunctionNode; otherwise, it behaves like a ValueNode.
+ */
+	class ExpressionNode : public Node
 	{
-		return mExpression.evaluate(evaluator);
-	}
+	protected:
+		const Expression* mExpression; ///< The stored expression.
+		
+	public:
+		ExpressionNode(const Expression* expression);
+		
+		virtual int    arguments() const;
+		virtual double evaluate(Evaluator& evaluator) const;
+		virtual Flags  flags() const;
+		virtual void   infixParse(InfixParser& parser, Parser::Token& token) const;
+	};
 }
+
+#endif
 

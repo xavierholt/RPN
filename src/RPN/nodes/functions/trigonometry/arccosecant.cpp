@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ArcCosecantNode::ArcCosecantNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its arc cosecant.
+ * @param evaluator The current evaluation.
+ * @return The arc cosecant of the popped value.
+ */
 	double ArcCosecantNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

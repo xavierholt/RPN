@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for computing maximums.
+ */
 	class MaximumNode : public FunctionNode
 	{
 	public:

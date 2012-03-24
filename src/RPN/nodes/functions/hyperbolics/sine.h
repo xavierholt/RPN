@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic sines.
+ */
 	class HyperbolicSineNode : public FunctionNode
 	{
 	public:

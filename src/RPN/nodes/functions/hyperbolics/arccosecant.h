@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic arc cosecants.
+ */
 	class HyperbolicArcCosecantNode : public FunctionNode
 	{
 	public:

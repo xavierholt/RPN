@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating hyperbolic arc cosines.
+ */
 	class HyperbolicArcCosineNode : public FunctionNode
 	{
 	public:

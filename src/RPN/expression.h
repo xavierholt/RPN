@@ -31,32 +31,53 @@ namespace RPN
 {
 	class Node;
 	
+/**
+ * Holds an expression and evaluates it.
+ * The most important class in RPN.  Everything you do with the library
+ * revolves around creating and evaluating expressions.
+ *
+ * Create an expression with the convenience constructor, or with the default
+ * constructor, followed by a call to parse().  Replace the contents of the
+ * expression with subsequent calls to parse().  Get the result of evaluating
+ * the expression with whichever version of evaluate() fits your needs.
+ *
+ * Expressions can be nested within other expressions through the use of the
+ * ExpressionNode.
+ */
 	class Expression 
 	{
 	public:
+/**
+ * The format ("fixity") of an expression.
+ * Used to select the correct parser.
+ */
 		enum Format
 		{
-			INFIX,
-			POSTFIX
+			INFIX,  ///< Infix (3 + 4).
+			POSTFIX ///< Postfix (3 4 +).
 		};
 		
 	protected:
-		std::vector<const Node*> mStack;
-		mutable double           mResult;
-		int                      mMaxAvailable;
-		mutable bool             mIsCached;
-		mutable bool             mIsVolatile;
+		std::vector<const Node*> mStack;        ///< Holds the nodes that make up this expression.
+		mutable double           mResult;       ///< Caches the result of evaluating a constant expression.
+		int                      mArguments;    ///< The number of arguments this expression expects.
+		int                      mMaxAvailable; ///< The (approximate) maximum number of values on the value stack during evaluation.
+		mutable bool             mIsCached;     ///< Whether or not this expression is constant, and has had its result calculated already.
+		mutable bool             mIsVolatile;   ///< Whether or not this expression can change between evaluations.
 		
 	public:
 		Expression();
-		Expression(const std::string& string, const Context& context = Context::ROOT, Format format = INFIX);
+		Expression(const std::string& string, const Context& context = Context::ROOT, int arguments = 0, Format format = INFIX);
 		~Expression();
 		
-		Evaluator* buildEvaluator() const;
-		void       clear();
-		double     evaluate() const;
-		double     evaluate(Evaluator& evaluator) const;
-		void       parse(const std::string& string, const Context& context = Context::ROOT, Format format = INFIX);
+		int    arguments() const;
+		void   clear();
+		double evaluate() const;
+		double evaluate(double arg1) const;
+		double evaluate(double arg1, double arg2) const;
+		double evaluate(double arg1, double arg2, double arg3) const;
+		double evaluate(Evaluator& evaluator) const;
+		void   parse(const std::string& string, const Context& context = Context::ROOT, int arguments = 0, Format format = INFIX);
 		
 		Expression& operator <<(const Node* node);
 		

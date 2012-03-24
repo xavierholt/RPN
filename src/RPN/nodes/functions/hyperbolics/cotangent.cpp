@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	HyperbolicCotangentNode::HyperbolicCotangentNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its hyperbolic cotangent.
+ * @param evaluator The current evaluation.
+ * @return The hyperbolic cotangent of the popped node.
+ */
 	double HyperbolicCotangentNode::evaluate(Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

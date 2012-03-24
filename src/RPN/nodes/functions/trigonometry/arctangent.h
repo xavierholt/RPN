@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating arc tangents.
+ */
 	class ArcTangentNode : public FunctionNode
 	{
 	public:

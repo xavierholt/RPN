@@ -24,15 +24,22 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	ArcSineNode::ArcSineNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its arc sine.
+ * @param evaluator The current evaluation.
+ * @return The arc sine of the popped value.
+ */
 	double ArcSineNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return asin(arg);
 	}
 }

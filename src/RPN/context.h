@@ -30,23 +30,29 @@ namespace RPN
 	
 	typedef std::map<const std::string, const Node*> ContextMap;
 	
+/**
+ * A dictionary of node names and the nodes they map to.
+ * Contexts are arranged in a tree structure.  If a given name is not found in
+ * a context, it is searched for in that context's parent, and so on until the
+ * top of the tree is reached.
+ */
 	class Context
 	{
 	public:
 		static const Context ROOT;
 	
 	protected:
-		ContextMap     mHash;
-		const Context* mParent;
+		ContextMap     mHash;   ///< The name-to-node mapping of this context.
+		const Context* mParent; ///< The parent of this context.
 		
 	public:
 		Context(const Context* parent = &ROOT);
 		Context(const ContextMap& map, const Context* parent = &ROOT);
 		~Context();
 		
-		void        insert(const std::string& str, const Node* node);
-		const Node* lookup(const std::string&) const;
-		bool        remove(const std::string&);
+		void        insert(const std::string& name, const Node* node);
+		const Node* lookup(const std::string& name) const;
+		bool        remove(const std::string& name);
 	};
 }
 

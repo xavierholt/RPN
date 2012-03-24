@@ -24,11 +24,19 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	CotangentNode::CotangentNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its cotangent.
+ * @param evaluator The current evaluation.
+ * @return The cotangent of the popped value.
+ */
 	double CotangentNode::evaluate(RPN::Evaluator& evaluator) const
 	{
 		double arg = evaluator.pop();

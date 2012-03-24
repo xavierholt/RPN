@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating tangents.
+ */
 	class TangentNode : public FunctionNode
 	{
 	public:

@@ -28,31 +28,56 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ * @param context The context in which to parse.
+ */
 	InfixParser::InfixParser(const Context& context): Parser(context)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Convenience constructor.
+ * @param string A string to parse.
+ * @param context The context in which to parse it.
+ *
+ * Parses \p string in the given context.  Call store() to save the parsed
+ * expression into an RPN::Expression for evaluation.
+ * @see parse(), parseInternal(), store()
+ */
 	InfixParser::InfixParser(const std::string& string, const Context& context): Parser(context)
 	{
 		parse(string);
 	}
 	
+/**
+ * Clears the parser in preparation for parsing.
+ */
+	void InfixParser::clear()
+	{
+		Parser::clear();
+		mStack.clear();
+	}
+	
+/**
+ * Checks if there are tokens on the "shunt" stack.
+ * @return True if there is at least one token on the shunt stack; false otherwise.
+ */
 	bool InfixParser::hasStack() const
 	{
 		return (mStack.size() > 0);
 	}
 	
-	void InfixParser::parseInternal(const std::string& string)
+/**
+ * Performs the actual parsing.
+ */
+	void InfixParser::parseInternal()
 	{
-		reset();
-		std::string::const_iterator itr = string.begin();
-		std::string::const_iterator end = string.end();
-		
 		Node::Flags flags = Node::PRESENTS_OP;
 		Parser::Token token;
 		
-		while((token = next(itr, end)).node != NULL)
+		while((token = next()).node != NULL)
 		{
 			if(!token.node->succeeds(flags))
 			{
@@ -110,6 +135,10 @@ namespace RPN
 		checkResult();
 	}
 	
+/**
+ * Pops a token off the "shunt" stack and returns it.
+ * @return the popped token.
+ */
 	Parser::Token InfixParser::pop()
 	{
 		Token ret = mStack.back();
@@ -117,17 +146,28 @@ namespace RPN
 		return ret;
 	}
 	
+/**
+ * Pushes a token to the "shunt" stack.
+ * @param token The token to push.
+ */
 	void InfixParser::push_to_stack(Token& token)
 	{
 		mStack.push_back(token);
 	}
 	
+/**
+ * Pops a token off the "shunt" stack and pushes it onto the expression stack.
+ */
 	void InfixParser::shunt()
 	{
 		push_to_expression(mStack.back());
 		mStack.pop_back();
 	}
 	
+/**
+ * Gets a reference to the token on top of the "shunt" stack.
+ * @return A token reference.
+ */
 	Parser::Token& InfixParser::top()
 	{
 		return mStack.back();

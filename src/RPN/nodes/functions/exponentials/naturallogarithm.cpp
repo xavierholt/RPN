@@ -24,15 +24,22 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	NaturalLogarithmNode::NaturalLogarithmNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its natural logarithm.
+ * @param evaluator The current evaluation.
+ * @return The natural logarithm of the popped value.
+ */
 	double NaturalLogarithmNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return log(arg);
 	}
 }

@@ -21,21 +21,38 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ * @param args The number of arguments expected by this function.
+ */
 	FunctionNode::FunctionNode(int args): Node(), mArguments(args)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * @copydoc RPN::Node::arguments()
+ *
+ * This function returns the argument count that was passed to the constructor.
+ */
 	int FunctionNode::arguments() const
 	{
 		return mArguments;
 	}
 	
+/**
+ * @copydoc RPN::Node::flags()
+ */
 	Node::Flags FunctionNode::flags() const
 	{
 		return Node::Flags(Node::FUNCTION| Node::SUCCEEDS_OP | Node::PRESENTS_OP | Node::ALLFIX);
 	}
 	
+/**
+ * @copydoc RPN::Node::infixParse()
+ *
+ * Pushes this node directly onto the shunt stack.
+ */
 	void FunctionNode::infixParse(InfixParser& parser, Parser::Token& token) const
 	{
 		parser.push_to_stack(token);

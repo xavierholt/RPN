@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for calculating cosines.
+ */
 	class CosineNode : public FunctionNode
 	{
 	public:

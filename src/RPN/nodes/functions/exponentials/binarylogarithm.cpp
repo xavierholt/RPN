@@ -24,15 +24,22 @@
 
 namespace RPN
 {
+/**
+ * Constructor.
+ */
 	BinaryLogarithmNode::BinaryLogarithmNode(): FunctionNode(1)
 	{
 		//Nothing else to do...
 	}
 	
+/**
+ * Pops a value off the stack and returns its binary logarithm.
+ * @param evaluator The current evaluation.
+ * @return The binary logarithm of the popped value.
+ */
 	double BinaryLogarithmNode::evaluate(Evaluator& evaluator) const
 	{
-		double arg = evaluator.back();
-		evaluator.pop_back();
+		double arg = evaluator.pop();
 		return log(arg) / log(2);
 	}
 }

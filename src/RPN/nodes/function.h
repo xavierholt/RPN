@@ -23,10 +23,23 @@
 
 namespace RPN
 {
+/**
+ * Base class for all functions.
+ *
+ * Function nodes differ from operator nodes in the following respects:  They
+ * always precede their arguments in infix expressions, they can take any
+ * (fixed) number of arguments, and they are not affected by order of
+ * operations.
+ *
+ * Inherit from this class to create any functions you need that didn't come
+ * as built-ins.  Pass the number of arguments your function expects to the
+ * constructor (no variadic functions - sorry), and reimplement the evaluate()
+ * function (defined in Node) to perform the calculations you need.
+ */
 	class FunctionNode : public Node
 	{
 	protected:
-		int mArguments;
+		int mArguments; ///< The number of arguments to this function.
 		
 	public:
 		FunctionNode(int args);

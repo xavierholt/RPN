@@ -23,6 +23,9 @@
 
 namespace RPN
 {
+/**
+ * A node for negation.
+ */
 	class NegationNode : public OperatorNode
 	{
 	public:
